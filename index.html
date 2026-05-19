@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<style>
+nav ul{
+list-style: none;
+gap:20px;
+display:flex;
+}
+.Logo{
+    margin-left: 50px;
+}
+nav img{
+   
+    width: 50px;
+    height: 50px;
+}
+.card img{
+
+   max-width:100%;
+   height:auto;
+   
+
+}
+ul{
+    margin-right: 100px;
+}
+.Nav{
+  
+    display:flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.container{
+    display: grid;    
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 15px;
+}
+.card:nth-of-type(1){
+    grid-column: span 2;
+}
+@media (max-width:768px ){
+
+    .container{    
+        grid-template-columns: 1fr 1fr;        
+    }
+}
+
+@media (max-width:480px ){
+    .card:nth-of-type(1){
+   grid-column: span 1;
+}
+    .Nav{
+            flex-direction: column;
+    }
+    .container{    
+        grid-template-columns: 1fr;        
+    }
+}
+</style>
+
+
+<body>
+    
+    <nav class="Nav">
+        <div class="Logo">
+            <img  src="imges/Logo.jpg">
+        </div>
+        <div>
+            <ul >
+                <li><a href="#" >Home</a></li>
+                <li><a href="#">About</a></li>
+                <li><a href="#">Services</a></li>
+                <li><a href="#">Contact</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="container">
+        <div class="card">
+            <img src="imges/Logo.jpg" >
+        </div>
+        
+        <div class="card">
+            <img  src="imges/Logo.jpg" >
+        </div>
+        
+        <div class="card">
+            <img  src="imges/Logo.jpg" >
+        </div>
+        
+        <div class="card">
+            <img src="imges/Logo.jpg" >
+        </div>
+        
+        <div class="card">
+            <img src="imges/Logo.jpg" >
+        </div>
+        
+        <div class="card">
+            <img src="imges/Logo.jpg" >
+        </div>
+        
+    </div>
+
+</body>
+</html>
