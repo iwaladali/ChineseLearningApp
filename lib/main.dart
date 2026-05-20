@@ -57,7 +57,7 @@ class MainScreen extends StatelessWidget {
                     MaterialPageRoute(builder: (context) => VocabularyAdd()),
                   );
                 },
-                child: Text("Click")),
+                child: Text("Add Vocabulary")),
           ],
         ),
       ),
