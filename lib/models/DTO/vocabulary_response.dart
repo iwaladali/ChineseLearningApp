@@ -2,5 +2,6 @@
 class VocabularyResponse{
   String arabic;
   String chinese;
-  VocabularyResponse({required this.arabic, required this.chinese });
+  String pinyin;
+  VocabularyResponse({required this.arabic, required this.chinese, required this.pinyin });
 }

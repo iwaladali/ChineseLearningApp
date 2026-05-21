@@ -3,6 +3,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:provider/provider.dart';
 import 'firebase_options.dart';
 import 'package:flutter_project/providers/vocabulary_provider.dart';
+import 'package:flutter_project/providers/speech_provider.dart';
 import 'screens/vocabulary_show.dart';
 import 'screens/vocabulary_add.dart';
 
@@ -14,6 +15,7 @@ void main() async {
   runApp(
     MultiProvider(providers: [
     ChangeNotifierProvider(create: (_)=>VocabularyProvider()),
+    ChangeNotifierProvider(create: (_)=>SpeechProvider()),
     ],
       child: MyApp(),
     ),
