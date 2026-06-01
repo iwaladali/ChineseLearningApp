@@ -3,6 +3,9 @@ import 'package:flutter_project/models/DTO/vocabulary_request.dart';
 import 'package:flutter_project/providers/vocabulary_provider.dart';
 import 'package:provider/provider.dart';
 
+
+import 'AppDrawer.dart';
+
 class VocabularyAdd extends StatelessWidget {
    VocabularyAdd({super.key});
   final _formKey = GlobalKey<FormState>();
