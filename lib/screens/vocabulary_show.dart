@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_project/providers/vocabulary_provider.dart';
 import 'package:flutter_project/providers/speech_provider.dart';
+import 'package:flutter_project/screens/AppDrawer.dart';
 import 'package:provider/provider.dart';
 
 
@@ -22,11 +23,11 @@ class VocabularyShow extends StatelessWidget {
          style: TextStyle(
            color: Colors.indigo
          ),
-
        ),
        centerTitle: true,
        backgroundColor: Colors.black12,
      ),
+      drawer: AppDrawer(),
       body:
           Consumer<VocabularyProvider>(
             builder: (context, provider ,_){
