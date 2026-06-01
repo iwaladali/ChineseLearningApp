@@ -33,10 +33,10 @@ class VocabularyShow extends StatelessWidget {
             builder: (context, provider ,_){
               if(provider.isLoading)
                 return Center(child: CircularProgressIndicator());
-             return Center(
-                child:
+             return ListView(
+                children: [
                 Column(
-                mainAxisAlignment: MainAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.center,
                   children: provider.vocabularies.map((vocab) =>
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
@@ -52,6 +52,8 @@ class VocabularyShow extends StatelessWidget {
                       )
                   ).toList(),
                 ),
+                ]
+
              );
             }
           )
