@@ -8,8 +8,10 @@ import 'package:flutter_project/providers/vocabulary_provider.dart';
 
 import 'package:flutter_project/screens/splash_screen.dart';
 import 'package:flutter_project/screens/login_screen.dart';
+import 'package:flutter_project/screens/register_screen.dart';
 import 'package:flutter_project/screens/vocabulary_add.dart';
 import 'package:flutter_project/screens/vocabulary_show.dart';
+import 'package:flutter_project/screens/forgot_password_screen.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -39,7 +41,7 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
 
       routes: {
-        '/': (BuildContext ctx) => const SplashScreen(),
+        '/': (BuildContext ctx) => const ForgotPasswordScreen(),
 
         '/login': (BuildContext ctx) => const LoginScreen(),
 
