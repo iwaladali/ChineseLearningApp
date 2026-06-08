@@ -13,6 +13,7 @@ import 'package:flutter_project/screens/vocabulary_add.dart';
 import 'package:flutter_project/screens/vocabulary_show.dart';
 import 'package:flutter_project/screens/forgot_password_screen.dart';
 import 'package:flutter_project/screens/home_screen.dart';
+import 'package:flutter_project/screens/profile_screen.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -42,7 +43,7 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
 
       routes: {
-        '/': (BuildContext ctx) => const HomeScreen(),
+        '/': (BuildContext ctx) => const ProfileScreen(),
 
         '/login': (BuildContext ctx) => const LoginScreen(),
 
