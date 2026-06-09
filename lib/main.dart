@@ -16,6 +16,8 @@ import 'package:flutter_project/screens/home_screen.dart';
 import 'package:flutter_project/screens/profile_screen.dart';
 import 'package:flutter_project/screens/vocabulary_screen.dart';
 import 'package:flutter_project/screens/word_details_screen.dart';
+import 'package:flutter_project/screens/progress_screen.dart';
+
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -45,7 +47,7 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
 
       routes: {
-        '/': (BuildContext ctx) => const WordDetailsScreen(),
+        '/': (BuildContext ctx) => const ProgressScreen(),
 
         '/login': (BuildContext ctx) => const LoginScreen(),
 
