@@ -84,7 +84,7 @@ class _VocabularyScreenState extends State<VocabularyScreen> {
                                       // TODO: Play pronunciation using SpeechProvider.
                                     },
                               onTap: () {
-                                // TODO: Navigate to WordDetailsScreen.
+                                Navigator.pushNamed(context, '/wordDetails');
                                 // TODO: Pass selected word object.
                               },),
                                 VocabularyCard(
@@ -95,7 +95,7 @@ class _VocabularyScreenState extends State<VocabularyScreen> {
                                       // TODO: Play pronunciation using SpeechProvider.
                                     },
                                   onTap: () {
-                                    // TODO: Navigate to WordDetailsScreen.
+                                    Navigator.pushNamed(context, '/wordDetails');
                                     // TODO: Pass selected word object.
                                   },),
                                 VocabularyCard(
@@ -106,7 +106,7 @@ class _VocabularyScreenState extends State<VocabularyScreen> {
                                       // TODO: Play pronunciation using SpeechProvider.
                                     },
                                     onTap: () {
-                          // TODO: Navigate to WordDetailsScreen.
+                                      Navigator.pushNamed(context, '/wordDetails');
                           // TODO: Pass selected word object.
                         },
                                     ),
