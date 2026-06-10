@@ -12,71 +12,67 @@ class AuthService {
     required String password,
   }) async {
     try {
-      print("TRY LOGIN: $email");
-
       final result = await _auth.signInWithEmailAndPassword(
         email: email,
         password: password,
       );
 
-      print("LOGIN SUCCESS: ${result.user?.uid}");
+      final user = result.user;
 
-      final user = result.user!;
+      if (user == null) {
+        throw Exception("Login failed: user is null");
+      }
 
       final doc = await _firestore.collection('users').doc(user.uid).get();
 
-      print("FIRESTORE CHECK DONE");
-
       if (doc.exists && doc.data() != null) {
         return UserModel.fromMap(doc.data()!);
+      } else {
+        throw Exception("User not found in Firestore");
       }
-
-      return UserModel(
-        uid: user.uid,
-        email: user.email ?? email,
-        displayName: '',
-        photoUrl: null,
-        createdAt: DateTime.now(),
-      );
     } catch (e) {
-      print("LOGIN ERROR: $e"); // 🔥 مهم جداً
+      print("LOGIN ERROR: $e");
       rethrow;
     }
   }
+
   // ---------------- REGISTER ----------------
   Future<UserModel> registerWithEmail({
     required String email,
     required String password,
     required String displayName,
   }) async {
-    final result = await _auth.createUserWithEmailAndPassword(
-      email: email,
-      password: password,
-    );
-
-    final user = result.user!;
-
-    final newUser = UserModel(
-      uid: user.uid,
-      email: email,
-      displayName: displayName,
-      photoUrl: null,
-      createdAt: DateTime.now(),
-    );
-
     try {
+      final result = await _auth.createUserWithEmailAndPassword(
+        email: email,
+        password: password,
+      );
+
+      final user = result.user;
+
+      if (user == null) {
+        throw Exception("User creation failed");
+      }
+
+      final newUser = UserModel(
+        uid: user.uid,
+        email: email,
+        displayName: displayName,
+        role: 'student',
+        photoUrl: null,
+        createdAt: DateTime.now(),
+      );
+
       await _firestore
           .collection('users')
           .doc(user.uid)
           .set(newUser.toMap());
+
+      return newUser;
     } catch (e) {
-      print("Firestore write failed: $e");
+      print("REGISTER ERROR: $e");
+      rethrow;
     }
-
-// تسجيل خروج مباشرة بعد إنشاء الحساب
-    await _auth.signOut();
-
-    return newUser;
   }
 
   // ---------------- CURRENT USER ----------------
@@ -86,32 +82,26 @@ class AuthService {
 
       if (user == null) return null;
 
-      final doc =
-      await _firestore.collection('users').doc(user.uid).get();
+      final doc = await _firestore.collection('users').doc(user.uid).get();
 
       if (doc.exists && doc.data() != null) {
         return UserModel.fromMap(doc.data()!);
       }
 
-      return UserModel(
-        uid: user.uid,
-        email: user.email ?? '',
-        displayName: '',
-        photoUrl: null,
-        createdAt: DateTime.now(),
-      );
+      return null;
     } catch (e) {
+      print("GET CURRENT USER ERROR: $e");
       return null;
     }
   }
 
   // ---------------- RESET PASSWORD ----------------
-  Future<void> resetPassword(String email) async {
+  Future resetPassword(String email) async {
     await _auth.sendPasswordResetEmail(email: email);
   }
 
   // ---------------- SIGN OUT ----------------
-  Future<void> signOut() async {
+  Future signOut() async {
     await _auth.signOut();
   }
 }

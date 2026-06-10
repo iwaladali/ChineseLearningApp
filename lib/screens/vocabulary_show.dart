@@ -3,7 +3,6 @@ import 'package:provider/provider.dart';
 
 import '../providers/vocabulary_provider.dart';
 import '../providers/auth_provider.dart';
-import 'login_screen.dart';
 
 class VocabularyShow extends StatefulWidget {
   const VocabularyShow({super.key});
@@ -13,7 +12,6 @@ class VocabularyShow extends StatefulWidget {
 }
 
 class _VocabularyShowState extends State<VocabularyShow> {
-
   @override
   void initState() {
     super.initState();
@@ -25,14 +23,6 @@ class _VocabularyShowState extends State<VocabularyShow> {
 
   Future<void> _logout() async {
     await context.read<AuthProvider>().signOut();
-
-    if (!mounted) return;
-
-    Navigator.pushAndRemoveUntil(
-      context,
-      MaterialPageRoute(builder: (_) => const LoginScreen()),
-          (route) => false,
-    );
   }
 
   @override
@@ -45,25 +35,25 @@ class _VocabularyShowState extends State<VocabularyShow> {
         ),
         centerTitle: true,
         backgroundColor: Colors.black12,
-
-        // 🔴 زر تسجيل الخروج
         actions: [
           IconButton(
             icon: const Icon(Icons.logout),
             onPressed: _logout,
-          )
+          ),
         ],
       ),
-
       body: Consumer<VocabularyProvider>(
         builder: (context, provider, _) {
-
           if (provider.isLoading) {
-            return const Center(child: CircularProgressIndicator());
+            return const Center(
+              child: CircularProgressIndicator(),
+            );
           }
 
           if (provider.vocabularies.isEmpty) {
-            return const Center(child: Text("No data"));
+            return const Center(
+              child: Text("No data"),
+            );
           }
 
           return ListView.builder(
