@@ -12,19 +12,16 @@ final FirebaseFirestore _firestore = FirebaseFirestore.instance;
     List<VocabularyResponse> resp=[];
       QuerySnapshot snapshot= await _firestore.collection('Vocabulary').get();
 
-    resp= snapshot.docs.map((doc)=>
-        VocabularyResponse(arabic: (doc.data()! as Map<String, dynamic>)['arabic']
-            , chinese: (doc.data()! as Map<String, dynamic>)['chinese'])
+    resp= snapshot.docs.map((doc)=>VocabularyResponse.fromMap(doc.data() as Map<String, dynamic>)
     ).toList();
 
       return resp;
 }
+
   Future<bool> add_Vocabulary( VocabularyRequest req ) async {
     try{
-    Map<String, dynamic> vocab= {
-      'arabic':req.arabic,
-      'chinese':req.chinese,
-    };
+     Map<String, dynamic> vocab= req.GetfromMap();
+
    await _firestore.collection('Vocabulary').add(vocab);
       return true;
     }
