@@ -3,11 +3,15 @@ import 'package:flutter_project/models/DTO/vocabulary_request.dart';
 import 'package:flutter_project/providers/vocabulary_provider.dart';
 import 'package:provider/provider.dart';
 
+
+import 'AppDrawer.dart';
+
 class VocabularyAdd extends StatelessWidget {
    VocabularyAdd({super.key});
   final _formKey = GlobalKey<FormState>();
   final TextEditingController _arabicController = TextEditingController();
   final TextEditingController _chineseController = TextEditingController();
+  final TextEditingController _pinyinController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -85,13 +89,43 @@ class VocabularyAdd extends StatelessWidget {
 
               const SizedBox(height: 32),
 
+                TextFormField(
+                controller: _pinyinController,
+                keyboardType: TextInputType.text,
+                textInputAction: TextInputAction.done,
+                decoration: const InputDecoration(
+                  labelText: 'English Word',
+                  hintText: 'Enter the pinyin',
+                  prefixIcon: Icon(Icons.language),
+                  border: OutlineInputBorder(),
+                ),
+                validator: (value) {
+                  if (value == null || value.trim().isEmpty) {
+                    return 'Chinese word is required.';
+                  }
+
+                  final  pinyinRegex = RegExp(
+                    r'^[a-zA-ZāáǎàēéěèīíǐìōóǒòūúǔùǖǘǚǜüÜ\s]+$',
+                  );
+                  if (!pinyinRegex.hasMatch(value.trim())) {
+                    return 'Only English and Latin characters are allowed.';
+                  }
+                  return null;
+                },
+              ),
+
+              const SizedBox(height: 32),
+
               // ── Submit button ───────────────────────────────────────
               FilledButton.icon(
                 onPressed:() async {
 
                 if (_formKey.currentState!.validate()) {
-                VocabularyRequest req=VocabularyRequest(arabic: _arabicController.text,
-                chinese: _chineseController.text);
+                VocabularyRequest req=VocabularyRequest(
+                arabic: _arabicController.text,
+                chinese: _chineseController.text,
+                pinyin: _pinyinController.text
+                );
 
                 bool res= await vocab_provider.addVocabulary(req);
                   String msg="";

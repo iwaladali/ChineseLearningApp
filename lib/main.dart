@@ -1,4 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_project/screens/vocabulary_add.dart';
+import 'package:flutter_project/screens/vocabulary_show.dart';
+import 'screens/VehicleWidget.dart';
+import 'screens/LanguageWidget.dart';
+import 'screens/FoodWidget.dart';
+import 'screens/AnotherWidget.dart';
+import 'screens/NotificationWidget.dart';
+import 'screens/HomePage.dart';
+import 'screens/SettingsWidget.dart';
+
 import 'package:firebase_core/firebase_core.dart';
 import 'package:provider/provider.dart';
 
@@ -18,6 +28,8 @@ import 'package:flutter_project/screens/vocabulary_screen.dart';
 import 'package:flutter_project/screens/word_details_screen.dart';
 import 'package:flutter_project/screens/progress_screen.dart';
 import 'package:flutter_project/screens/pronunciation_training_screen.dart';
+import 'package:flutter_project/providers/speech_provider.dart';
+
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -27,13 +39,11 @@ void main() async {
   );
 
   runApp(
-    MultiProvider(
-      providers: [
-        ChangeNotifierProvider(
-          create: (_) => VocabularyProvider(),
-        ),
-      ],
-      child: const MyApp(),
+    MultiProvider(providers: [
+      ChangeNotifierProvider(create: (_)=>VocabularyProvider()),
+      ChangeNotifierProvider(create: (_)=>SpeechProvider()),
+    ],
+      child: MyApp(),
     ),
   );
 }
@@ -44,16 +54,17 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      debugShowCheckedModeBanner: false,
 
       routes: {
-        '/': (BuildContext ctx) => const PronunciationTrainingScreen(),
-
-        '/login': (BuildContext ctx) => const LoginScreen(),
-
-        '/addVocabulary': (BuildContext ctx) => VocabularyAdd(),
-
-        '/showVocabulary': (BuildContext ctx) => VocabularyShow(),
+        '/' : (BuildContext ctx) => HomePage(),
+        '/food': (BuildContext ctx) => Food(),
+        '/language': (BuildContext ctx) => Language(),
+        '/another': (BuildContext ctx) => Another(),
+        '/vehicle': (BuildContext ctx) => Vehicle(),
+        '/setting' : (BuildContext ctx) => Settings(),
+        '/notification' : (BuildContext ctx) => NotificationWidget(),
+        '/addVocabulary' : (BuildContext ctx) => VocabularyAdd(),
+        '/showVocabulary' : (BuildContext ctx) => VocabularyShow()
       },
     );
   }
