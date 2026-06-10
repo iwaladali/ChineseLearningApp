@@ -41,49 +41,49 @@ class DefaultFirebaseOptions {
   }
 
   static const FirebaseOptions web = FirebaseOptions(
-    apiKey: 'AIzaSyBo5e29NUlR6ClRf0i1mn6qPEiG_4LKM1A',
-    appId: '1:635163660895:web:5396cc97460915e10801ea',
-    messagingSenderId: '635163660895',
-    projectId: 'chaina-bc74b',
-    authDomain: 'chaina-bc74b.firebaseapp.com',
-    storageBucket: 'chaina-bc74b.firebasestorage.app',
-    measurementId: 'G-QRJV6YK20P',
+    apiKey: 'AIzaSyAD1myi7TfMuqqcKVsCfmlhCn9nSDrkH1M',
+    appId: '1:729891947476:web:af2c081a525835303acc41',
+    messagingSenderId: '729891947476',
+    projectId: 'chineselearningapp-f0a96',
+    authDomain: 'chineselearningapp-f0a96.firebaseapp.com',
+    storageBucket: 'chineselearningapp-f0a96.firebasestorage.app',
+    measurementId: 'G-MS5GLKD8NN',
   );
 
   static const FirebaseOptions android = FirebaseOptions(
-    apiKey: 'AIzaSyA4VWIv7mUTuuMW4odYsw5FvzBhWsix3nQ',
-    appId: '1:635163660895:android:839084ee5f107fd20801ea',
-    messagingSenderId: '635163660895',
-    projectId: 'chaina-bc74b',
-    storageBucket: 'chaina-bc74b.firebasestorage.app',
+    apiKey: 'AIzaSyC66TkN3QZ-fRu_GXo5tVKzYWv33A0Sp8k',
+    appId: '1:729891947476:android:a52944ed094809f73acc41',
+    messagingSenderId: '729891947476',
+    projectId: 'chineselearningapp-f0a96',
+    storageBucket: 'chineselearningapp-f0a96.firebasestorage.app',
   );
 
   static const FirebaseOptions ios = FirebaseOptions(
-    apiKey: 'AIzaSyAPbdOzsFAkPM8feHGA9qvEbgLdnEruXWE',
-    appId: '1:635163660895:ios:aa289b02d938d1970801ea',
-    messagingSenderId: '635163660895',
-    projectId: 'chaina-bc74b',
-    storageBucket: 'chaina-bc74b.firebasestorage.app',
+    apiKey: 'AIzaSyAAIvziOcZzTiLH3lKYq31uu7PAqN6M-pI',
+    appId: '1:729891947476:ios:adc2ac5b78a126623acc41',
+    messagingSenderId: '729891947476',
+    projectId: 'chineselearningapp-f0a96',
+    storageBucket: 'chineselearningapp-f0a96.firebasestorage.app',
     iosBundleId: 'com.example.flutterProject',
   );
 
   static const FirebaseOptions macos = FirebaseOptions(
-    apiKey: 'AIzaSyAPbdOzsFAkPM8feHGA9qvEbgLdnEruXWE',
-    appId: '1:635163660895:ios:aa289b02d938d1970801ea',
-    messagingSenderId: '635163660895',
-    projectId: 'chaina-bc74b',
-    storageBucket: 'chaina-bc74b.firebasestorage.app',
+    apiKey: 'AIzaSyAAIvziOcZzTiLH3lKYq31uu7PAqN6M-pI',
+    appId: '1:729891947476:ios:adc2ac5b78a126623acc41',
+    messagingSenderId: '729891947476',
+    projectId: 'chineselearningapp-f0a96',
+    storageBucket: 'chineselearningapp-f0a96.firebasestorage.app',
     iosBundleId: 'com.example.flutterProject',
   );
 
   static const FirebaseOptions windows = FirebaseOptions(
-    apiKey: 'AIzaSyBo5e29NUlR6ClRf0i1mn6qPEiG_4LKM1A',
-    appId: '1:635163660895:web:7d57a59bea9b2f430801ea',
-    messagingSenderId: '635163660895',
-    projectId: 'chaina-bc74b',
-    authDomain: 'chaina-bc74b.firebaseapp.com',
-    storageBucket: 'chaina-bc74b.firebasestorage.app',
-    measurementId: 'G-LBQLSEDHJ6',
+    apiKey: 'AIzaSyAD1myi7TfMuqqcKVsCfmlhCn9nSDrkH1M',
+    appId: '1:729891947476:web:f476f70c5e9a65593acc41',
+    messagingSenderId: '729891947476',
+    projectId: 'chineselearningapp-f0a96',
+    authDomain: 'chineselearningapp-f0a96.firebaseapp.com',
+    storageBucket: 'chineselearningapp-f0a96.firebasestorage.app',
+    measurementId: 'G-ZDHSEZVXZV',
   );
 
 }

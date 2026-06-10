@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_project/services/FirebaseService.dart';
+import 'package:flutter_project/services/firebase_service.dart';
 import 'package:flutter_project/models/DTO/vocabulary_response.dart';
 import 'package:flutter_project/models/DTO/vocabulary_request.dart';
 

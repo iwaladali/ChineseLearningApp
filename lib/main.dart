@@ -1,23 +1,27 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:provider/provider.dart';
+import 'auth_gate.dart';
 import 'firebase_options.dart';
-import 'package:flutter_project/providers/vocabulary_provider.dart';
-import 'screens/vocabulary_show.dart';
-import 'screens/vocabulary_add.dart';
+
+// Providers
+import 'providers/auth_provider.dart';
+import 'providers/vocabulary_provider.dart';
+
+// Services
+import 'services/auth_service.dart';
+
+// Screens
+import 'screens/splash_screen.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
-  runApp(
-    MultiProvider(providers: [
-    ChangeNotifierProvider(create: (_)=>VocabularyProvider()),
-    ],
-      child: MyApp(),
-    ),
-     );
+
+  runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
@@ -25,43 +29,30 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      home:MainScreen()
-    );
-  }
-}
-
-class MainScreen extends StatelessWidget {
-  const MainScreen({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return  Scaffold(
-      appBar: AppBar(title: Text('Firebase Ready 🚀')),
-      body: Center(
-        child: Column(
-          children: [
-            ElevatedButton(
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => VocabularyShow()),
-                  );
-                },
-                child: Text("Show Vocabularies")),
-            SizedBox(height: 20,),
-            ElevatedButton(
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => VocabularyAdd()),
-                  );
-                },
-                child: Text("Add Vocabulary")),
-          ],
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider(
+          create: (_) => AuthProvider(authService: AuthService()),
         ),
-      ),
+        ChangeNotifierProvider(
+          create: (_) => VocabularyProvider(),
+        ),
+      ],
+      child: MaterialApp(
+        debugShowCheckedModeBanner: false,
 
+        theme: ThemeData(
+          colorScheme: ColorScheme.fromSeed(
+            seedColor: const Color(0xFFD32F2F),
+          ),
+          useMaterial3: true,
+          fontFamily: 'Cairo',
+        ),
+        home: const AuthGate(),
+      ),
     );
   }
 }
+
+
+
