@@ -1,74 +1,63 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_project/providers/vocabulary_provider.dart';
+import 'package:flutter_project/providers/speech_provider.dart';
+import 'package:flutter_project/screens/AppDrawer.dart';
 import 'package:provider/provider.dart';
 
-import '../providers/vocabulary_provider.dart';
-import '../providers/auth_provider.dart';
 
-class VocabularyShow extends StatefulWidget {
-  const VocabularyShow({super.key});
-
-  @override
-  State<VocabularyShow> createState() => _VocabularyShowState();
-}
-
-class _VocabularyShowState extends State<VocabularyShow> {
-  @override
-  void initState() {
-    super.initState();
-
-    Future.microtask(() {
-      context.read<VocabularyProvider>().loadVocabularies();
-    });
-  }
-
-  Future<void> _logout() async {
-    await context.read<AuthProvider>().signOut();
-  }
+class VocabularyShow extends StatelessWidget {
+  VocabularyShow({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final speech = Provider.of<SpeechProvider>(context);
+    WidgetsBinding.instance.addPostFrameCallback((_){
+      final provider = context.read<VocabularyProvider>();
+      provider.loadVocabularies();
+
+    });
+
     return Scaffold(
-      appBar: AppBar(
-        title: const Text(
-          "Vocabulary",
-          style: TextStyle(color: Colors.indigo),
-        ),
-        centerTitle: true,
-        backgroundColor: Colors.black12,
-        actions: [
-          IconButton(
-            icon: const Icon(Icons.logout),
-            onPressed: _logout,
+        appBar: AppBar(
+          title: Text("VocabularyShow",
+            style: TextStyle(
+                color: Colors.indigo
+            ),
           ),
-        ],
-      ),
-      body: Consumer<VocabularyProvider>(
-        builder: (context, provider, _) {
-          if (provider.isLoading) {
-            return const Center(
-              child: CircularProgressIndicator(),
-            );
-          }
+          centerTitle: true,
+          backgroundColor: Colors.black12,
+        ),
+        drawer: AppDrawer(),
+        body:
+        Consumer<VocabularyProvider>(
+            builder: (context, provider ,_){
+              if(provider.isLoading)
+                return Center(child: CircularProgressIndicator());
+              return ListView(
+                  children: [
+                    Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: provider.vocabularies.map((vocab) =>
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Text('Arabic Word: ${vocab.arabic}'),
+                              SizedBox(width: 15,),
+                              Text('chinese Word: ${vocab.chinese}'),
+                              SizedBox(width: 15,),
+                              IconButton(onPressed: () async {
+                                await  speech.speak_word(vocab.chinese);
+                              }, icon:Icon(Icons.record_voice_over))
+                            ],
+                          )
+                      ).toList(),
+                    ),
+                  ]
 
-          if (provider.vocabularies.isEmpty) {
-            return const Center(
-              child: Text("No data"),
-            );
-          }
-
-          return ListView.builder(
-            itemCount: provider.vocabularies.length,
-            itemBuilder: (context, index) {
-              final vocab = provider.vocabularies[index];
-
-              return ListTile(
-                title: Text("Arabic: ${vocab.arabic}"),
-                subtitle: Text("Chinese: ${vocab.chinese}"),
               );
-            },
-          );
-        },
-      ),
+            }
+        )
+
     );
   }
 }

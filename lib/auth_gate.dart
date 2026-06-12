@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import 'providers/auth_provider.dart';
-import 'screens/login_screen.dart';
+import 'screens/login_screen2.dart';
 import 'screens/vocabulary_show.dart';
 
 class AuthGate extends StatefulWidget {
@@ -37,7 +37,7 @@ class _AuthGateState extends State<AuthGate> {
 
         // ✅ إذا المستخدم مسجل دخول
         if (auth.isLoggedIn) {
-          return const VocabularyShow();
+         // return const VocabularyShow();
         }
 
         // ❌ إذا مش مسجل دخول

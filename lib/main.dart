@@ -9,10 +9,11 @@ import 'providers/auth_provider.dart';
 import 'providers/vocabulary_provider.dart';
 
 // Services
+
 import 'services/auth_service.dart';
 
 // Screens
-import 'screens/splash_screen.dart';
+import 'screens/splash_screen2.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
