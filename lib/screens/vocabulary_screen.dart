@@ -1,5 +1,8 @@
 import 'package:flutter_project/widgets/vocabulary_card.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_project/providers/vocabulary_provider.dart';
+import 'package:flutter_project/providers/speech_provider.dart';
+import 'package:provider/provider.dart';
 
 class VocabularyScreen extends StatefulWidget {
   const VocabularyScreen({super.key});
@@ -12,9 +15,23 @@ class _VocabularyScreenState extends State<VocabularyScreen> {
 
   static const Color darkText = Color(0xFF2F3A3F);
   static const Color greyText = Color(0xFF9CA3AF);
-  
+
+  @override
+  void initState() {
+    // TODO: implement initState
+
+    super.initState();
+    Future.microtask(() {
+      Provider.of<VocabularyProvider>(context,listen: false,).loadVocabularies();
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
+    final vocabProvider = Provider.of<VocabularyProvider>(context);
+    final speechProvider = Provider.of<SpeechProvider>(context);
+    var vocabs = vocabProvider.filteredvocabularies;
+
     return Directionality(
         textDirection: TextDirection.rtl,
         child: Scaffold(
@@ -56,8 +73,16 @@ class _VocabularyScreenState extends State<VocabularyScreen> {
                               borderRadius: BorderRadius.circular(16)
                             )
                           ),
+                          onChanged: (arabic_word)async {
+
+                              vocabProvider.filterArabic(arabic_word);
+                            setState(() {
+                            });
+                          }
+                            ,
                           // TODO: Filter vocabulary list using VocabularyProvider.
-                        ),),
+                        ),
+                        ),
                         const SizedBox(height: 24,),
                         
                         const Padding(
@@ -73,45 +98,21 @@ class _VocabularyScreenState extends State<VocabularyScreen> {
                         ),),
                         const SizedBox(height: 18,),
                         Expanded(
-                            child: ListView(
-                              padding: const EdgeInsets.symmetric(horizontal: 24),
-                              children: [
-                                VocabularyCard(
-                                    hanzi: '你',
-                                    pinyin: 'hǎo',
-                                    arabic: 'جيد',
-                                    onPlay: (){
-                                      // TODO: Play pronunciation using SpeechProvider.
-                                    },
-                              onTap: () {
-                                Navigator.pushNamed(context, '/wordDetails');
-                                // TODO: Pass selected word object.
-                              },),
-                                VocabularyCard(
-                                    hanzi: '再见',
-                                    pinyin: 'zàijiàn',
-                                    arabic: 'إلى اللقاء',
-                                    onPlay: (){
-                                      // TODO: Play pronunciation using SpeechProvider.
-                                    },
-                                  onTap: () {
-                                    Navigator.pushNamed(context, '/wordDetails');
-                                    // TODO: Pass selected word object.
-                                  },),
-                                VocabularyCard(
-                                    hanzi: '好',
-                                    pinyin: 'xièxie',
-                                    arabic: 'شكراً',
-                                    onPlay: (){
-                                      // TODO: Play pronunciation using SpeechProvider.
-                                    },
-                                    onTap: () {
-                                      Navigator.pushNamed(context, '/wordDetails');
-                          // TODO: Pass selected word object.
-                        },
-                                    ),
-                              ],
-                            )
+                          child: ListView(
+                            padding: const EdgeInsets.symmetric(horizontal: 24),
+                            children: vocabs.map((ele)=>
+                            VocabularyCard.fromMap(ele.GetfromMap(),
+                                speechProvider.speak_word,
+                                    () {
+                                      Navigator.pushNamed(
+                                        context,
+                                        '/wordDetails',
+                                        arguments: ele,
+                                      );
+                                }
+                                ) ).toList(),
+                          ),
+
                         )
                         // TODO: Replace static cards with VocabularyProvider data.
                         // TODO: Load words from Firestore.
