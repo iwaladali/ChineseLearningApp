@@ -32,6 +32,18 @@ class VocabularyAdd extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
+              ElevatedButton(
+                onPressed: () {
+                  vocab_provider.addVocabAll();
+                },
+                style: ElevatedButton.styleFrom(
+                  backgroundColor:
+                   Colors.grey,
+                  foregroundColor: Colors.white,
+                ),
+                child: Text("Add All"),
+              ),
+              SizedBox(height: 20),
 
               // ── Field 1: Arabic only ────────────────────────────────
               TextFormField(
@@ -124,7 +136,8 @@ class VocabularyAdd extends StatelessWidget {
                 VocabularyRequest req=VocabularyRequest(
                 arabic: _arabicController.text,
                 chinese: _chineseController.text,
-                pinyin: _pinyinController.text
+                pinyin: _pinyinController.text,
+                    category:""
                 );
 
                 bool res= await vocab_provider.addVocabulary(req);
