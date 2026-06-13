@@ -17,7 +17,8 @@ class AudioProvider with ChangeNotifier {
   String? errorMessage;
 
 
-  Future<void> startRecording() async {
+  Future<void> startRecording() async
+  {
     if (!await _recorder.hasPermission()) {
       errorMessage = 'Microphone permission denied';
       notifyListeners();
@@ -47,7 +48,8 @@ class AudioProvider with ChangeNotifier {
   Future<void> stopAndAnalyze({
     required String correctWord,
     required String language,
-  }) async {
+  }) async
+  {
     await _recorder.stop();
 
     isRecording = false;

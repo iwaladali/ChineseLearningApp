@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_project/models/DTO/vocabulary_response.dart';
+import 'package:flutter_project/providers/audio_provider.dart';
 import 'package:flutter_project/widgets/pronunciation_word_card.dart';
+import 'package:provider/provider.dart';
+
 
 class PronunciationTrainingScreen extends StatefulWidget {
   const PronunciationTrainingScreen({super.key});
@@ -16,15 +20,43 @@ class _PronunciationTrainingScreenState
   static const Color greyText = Color(0xFF9CA3AF);
   static const Color lightRed = Color(0xFFFDEAEA);
 
+  void showResultSnackBar(
+      BuildContext context,
+      Map<String, dynamic> result,
+      ) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        duration: const Duration(seconds: 4),
+        content: Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text("🗣 Word: ${result['wordHeard']}"),
+            Text("🎯 Accuracy: ${result['accuracy']}%"),
+            Text("⭐ Grade: ${result['grade']}"),
+            const SizedBox(height: 6),
+            Text("💬 Feedback: ${result['feedback']}"),
+            Text("💡 Tip: ${result['tip']}"),
+          ],
+        ),
+      ),
+    );
+  }
+
   bool _isRecording = false;
 
   @override
   Widget build(BuildContext context) {
     // TODO: Receive selected Word model from WordDetailsScreen.
     // TODO: Replace static word values with selected word data.
-    const String hanzi = '[hanzi]';
-    const String pinyin = '[pinyin]';
-    const String arabic = '[arabic]';
+    final vocab =
+    ModalRoute.of(context)!.settings.arguments
+    as VocabularyResponse;
+     String hanzi = vocab.chinese ;
+     String pinyin = vocab.pinyin;
+     String arabic = vocab.arabic;
+
+    final audioProvider = Provider.of<AudioProvider>(context);
 
     return Directionality(
       textDirection: TextDirection.rtl,
@@ -67,7 +99,7 @@ class _PronunciationTrainingScreenState
 
                     const SizedBox(height: 32),
 
-                    const PronunciationWordCard(
+                     PronunciationWordCard(
                       hanzi: hanzi,
                       pinyin: pinyin,
                       arabic: arabic,
@@ -93,12 +125,19 @@ class _PronunciationTrainingScreenState
 
                         if (_isRecording) {
                           // TODO: Start microphone recording using SpeechProvider.
+                          audioProvider.startRecording();
                         } else {
+
+                          audioProvider.stopAndAnalyze(correctWord: hanzi,
+                              language: "Chinese");
                           // TODO: Stop microphone recording.
                           // TODO: Send audio to pronunciation evaluation service.
                           // TODO: Display pronunciation score.
                           // TODO: Save pronunciation result in Firestore.
                           // TODO: Update ProgressProvider pronunciation statistics.
+                        //  while(audioProvider.isAnalyzing);
+                          print("Hello");
+                          showResultSnackBar(context, audioProvider.result!.GetfromMap() );
                         }
                       },
                       child: Container(

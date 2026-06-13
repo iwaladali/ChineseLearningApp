@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-
+import 'package:flutter_project/screens/home_screen.dart';
+import 'package:flutter_project/screens/register_screen.dart';
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
   
@@ -200,6 +201,8 @@ class _LoginScreenState extends State<LoginScreen> {
                                   {
                                     // TODO: Call AuthProvider.login(email, password).
                                     // TODO: Navigate to HomeScreen after successful login.
+
+                              Navigator.pushNamed(context, '/HomeScreen');
                                     // TODO: Show error message if login fails.
                                   }
                               }, child: const Text('تسجيل الدخول',
@@ -220,6 +223,8 @@ class _LoginScreenState extends State<LoginScreen> {
                             fontSize: 14)
                             ),
                             TextButton(onPressed: (){
+                              Navigator.pushNamed(context, '/RegisterScreen');
+
                               // TODO: Navigate to RegisterScreen
                             }, child: const Text('إنشاء حساب جديد',
                             style: TextStyle(
