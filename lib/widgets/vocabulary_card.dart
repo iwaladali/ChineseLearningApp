@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-
+import 'package:flutter_project/providers/speech_provider.dart';
+import 'package:provider/provider.dart';
 class VocabularyCard extends StatelessWidget {
   const VocabularyCard({
     super.key,
@@ -9,12 +10,25 @@ class VocabularyCard extends StatelessWidget {
     required this.onPlay,
     required this.onTap
   });
+  factory VocabularyCard.fromMap(Map<String, dynamic> mp, onPlay, onTap){
+   return VocabularyCard(
+        hanzi: mp['chinese'] ?? '',
+        pinyin: mp['pinyin'] ?? '',
+        arabic: mp['arabic'] ?? '' ,
+        onPlay: onPlay,
+        onTap: onTap
+    );
+
+
+  }
+
 
   final String hanzi;
   final String pinyin;
   final String arabic;
-  final VoidCallback onPlay;
+  final void Function(String) onPlay;
   final VoidCallback onTap;
+
 
   static const Color primaryRed = Color(0xFFE53935);
   static const Color lightRed = Color(0xFFFDEAEA);
@@ -23,6 +37,9 @@ class VocabularyCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
+
+
     return InkWell(
       onTap: onTap,
       child: Container(
@@ -102,7 +119,8 @@ class VocabularyCard extends StatelessWidget {
             ),
 
             InkWell(
-              onTap: onPlay,
+              onTap:()=> onPlay(hanzi)
+              ,
               borderRadius: BorderRadius.circular(50),
               child: Container(
                 width: 52,
