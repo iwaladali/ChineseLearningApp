@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import '../providers/auth_provider.dart' as app_auth;
+import '../utils/Validators.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -10,20 +13,54 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
-  
   final _formKey = GlobalKey<FormState>();
+  final _emailController = TextEditingController();
+  final _passwordController = TextEditingController();
   bool _isPasswordVisible = false;
-  
+
   static const Color primaryRed = Color(0xFFDC2626);
   static const Color lightRed = Color(0xFFFDEAEA);
   static const Color darkText = Color(0xFF2F3A3F);
   static const Color greyText = Color(0xFF9CA3AF);
   static const Color borderGrey = Color(0xFFE5E7EB);
+   @override
+  void dispose() {
+    _emailController.dispose();
+    _passwordController.dispose();
+    super.dispose();
+  }
 
+  Future<void> _onLogin() async {
+    if (!_formKey.currentState!.validate()) return;
+
+    final authProvider =
+    Provider.of<app_auth.AuthenticatProvider>(context, listen: false,);
+
+    final success = await authProvider.signIn(
+      email: _emailController.text.trim(),
+      password: _passwordController.text.trim(),
+    );
+
+    if (!mounted) return;
+
+    if (success) {
+      Navigator.pushReplacementNamed(context, '/home');
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(
+            authProvider.errorMessage ?? 'فشل تسجيل الدخول',
+          ),
+          backgroundColor: Colors.red,
+        ),
+      );
+    }
+  }
   // TODO: Connect this screen with AuthProvider.
 // TODO: Use AuthProvider to manage loading, success, and error states.
   @override
   Widget build(BuildContext context) {
+    final authProvider = Provider.of<app_auth.AuthenticatProvider>(context);
     return Directionality(textDirection: TextDirection.rtl,
         child: Scaffold(
           backgroundColor: Colors.white,
@@ -72,6 +109,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         ),),
                         const SizedBox(height: 8,),
                         TextFormField(
+                          controller: _emailController,
                           keyboardType: TextInputType.emailAddress,
                           textDirection: TextDirection.ltr,
                           decoration: InputDecoration(
@@ -101,13 +139,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           ),
                           // TODO: Save email value and send it to AuthProvider.
                           // TODO: Improve email validation later.
-                          validator: (value){
-                            if(value == null || value.trim().isEmpty) {
-                              return 'يرجى إدخال البريد الإلكتروني';
-                            } else {
-                              return null;
-                            }
-                          },
+                          validator: Validators.validateEmail,
                         ),
                         const SizedBox(height: 18,),
                         Text('كلمة المرور',
@@ -118,6 +150,8 @@ class _LoginScreenState extends State<LoginScreen> {
                           ),),
                         const SizedBox(height: 8,),
                         TextFormField(
+
+                          controller: _passwordController,
                           obscureText: !_isPasswordVisible,
                           decoration:
                           InputDecoration(
@@ -158,14 +192,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           ),
                           // TODO: Save password value and send it to AuthProvider.
                           // TODO: Improve password validation later.
-                          validator: (value){
-                            if(value == null || value.isEmpty) {
-                              return 'يرجى إدخال كلمة المرور';
-                            }
-                            else{
-                              return null;
-                            }
-                          },
+                          validator:Validators.validatePassword,
                           ),
                         const SizedBox(height: 10,),
                         Align(
@@ -195,14 +222,13 @@ class _LoginScreenState extends State<LoginScreen> {
                                   borderRadius: BorderRadius.circular(14)
                                 )
                               ),
-                              onPressed: (){
-                                if(_formKey.currentState!.validate())
-                                  {
-                                    // TODO: Call AuthProvider.login(email, password).
-                                    // TODO: Navigate to HomeScreen after successful login.
-                                    // TODO: Show error message if login fails.
-                                  }
-                              }, child: const Text('تسجيل الدخول',
+                            onPressed: authProvider.isLoading ? null : _onLogin,
+                            child: authProvider.isLoading
+                                ? const CircularProgressIndicator(
+                              color: Colors.white,
+                              strokeWidth: 2,
+                            )
+                             : const Text('تسجيل الدخول',
                           style: TextStyle(
                             fontSize: 16,
                             fontWeight: FontWeight.bold
@@ -221,6 +247,7 @@ class _LoginScreenState extends State<LoginScreen> {
                             ),
                             TextButton(onPressed: (){
                               // TODO: Navigate to RegisterScreen
+                              Navigator.pushNamed(context, '/register');
                             }, child: const Text('إنشاء حساب جديد',
                             style: TextStyle(
                               color: primaryRed,

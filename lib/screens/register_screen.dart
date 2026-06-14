@@ -1,4 +1,8 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import '../providers/auth_provider.dart' ;
+import '../utils/Validators.dart';
 
 class RegisterScreen extends StatefulWidget {
   const RegisterScreen({super.key});
@@ -8,23 +12,81 @@ class RegisterScreen extends StatefulWidget {
 }
 
 class _RegisterScreenState extends State<RegisterScreen> {
+  final _formKey = GlobalKey<FormState>();
+  final _nameController = TextEditingController();
+  final _emailController = TextEditingController();
+  final _passwordController = TextEditingController();
+  final _confirmController = TextEditingController();
+
+
   static const Color primaryRed = Color(0xFFDC2626);
   static const Color lightRed = Color(0xFFFDEAEA);
   static const Color darkText = Color(0xFF2F3A3F);
   static const Color greyText = Color(0xFF9CA3AF);
   static const Color borderGrey = Color(0xFFE5E7EB);
 
-  final _formKey = GlobalKey<FormState>();
+
 
   bool _isPasswordVisible = false;
   bool _isConfirmPasswordVisible = false;
   bool _emailNotifications = false;
 
+
+  @override
+  void dispose() {
+    _nameController.dispose();
+    _emailController.dispose();
+    _passwordController.dispose();
+    _confirmController.dispose();
+    super.dispose();
+  }
+  Future<void> _onRegister() async {
+    //print('REgister okkkkkkkkkkkkk');
+    if (!_formKey.currentState!.validate()) return;
+
+    // 🔥 check password match
+    if (_passwordController.text.trim() !=
+        _confirmController.text.trim()) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('كلمات المرور غير متطابقة'),
+          backgroundColor: Colors.red,
+        ),
+      );
+      return;
+    }
+
+    final auth = Provider.of<AuthenticatProvider>(context,listen: false,);
+
+    final success = await auth.register(
+      email: _emailController.text.trim(),
+      password: _passwordController.text.trim(),
+      displayName: _nameController.text.trim(),
+    );
+
+    if (!mounted) return;
+
+    if (success) {
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+          content:Text("Register Operation Is Successful"),
+          backgroundColor: Colors.green,),);
+      Navigator.pushReplacementNamed(context, '/');
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(auth.errorMessage ?? 'حدث خطأ'),
+          backgroundColor: Colors.red,
+        ),
+      );
+    }
+  }
   //TODO : Replace all local handling with AuthProvider
   //TODO: Connect registration to Firebase Authentication
   //TODO: Store user profile data in Firebase after registration
   @override
   Widget build(BuildContext context) {
+    final auth = Provider.of<AuthenticatProvider>(context, listen: false,);
+
     return Directionality(
       textDirection: TextDirection.rtl,
       child: Scaffold(
@@ -103,6 +165,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                          ),
                           const SizedBox(height: 8,),
                           TextFormField(
+                            controller: _nameController,
                             keyboardType: TextInputType.text,
                             textDirection: TextDirection.ltr,
                             decoration:InputDecoration(
@@ -126,16 +189,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                             ),
                             // TODO: Connect full name with AuthProvider.register().
                             // TODO: Send full name to firebase when creating account.
-                            validator: (value){
-                              if(value == null || value.trim().isEmpty)
-                                {
-                                  return 'يرجى إدخال الاسم';
-                                }
-                              else
-                                {
-                                  return null;
-                                }
-                            },
+                            validator:(value) => value == null || value.isEmpty ? 'أدخل الاسم' : null,
                           ),
                           const SizedBox(height: 20,),
                           const Align(
@@ -149,6 +203,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                           ),
                           SizedBox(height: 8,),
                           TextFormField(
+                            controller: _emailController,
                             keyboardType: TextInputType.emailAddress,
                             textDirection: TextDirection.ltr,
                             decoration:InputDecoration(
@@ -173,16 +228,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                             // TODO: Validate email format before registration
                             // TODO: Save email value for AuthProvider.register().
                             // TODO: Send email to firebase authentication.
-                            validator: (value){
-                              if(value == null || value.trim().isEmpty)
-                              {
-                                return 'يرجى إدخال إدخال بريدك الإلكتروني';
-                              }
-                              else
-                              {
-                                return null;
-                              }
-                            },
+                            validator: Validators.validateEmail,
                           ),
                           SizedBox(height: 20,),
                           const Align(
@@ -196,6 +242,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                           ),
                           SizedBox(height: 8,),
                           TextFormField(
+                            controller: _passwordController,
                             obscureText: !_isPasswordVisible,
                             decoration: InputDecoration(
                               hintText: 'أدخل كلمة المرور',
@@ -220,16 +267,10 @@ class _RegisterScreenState extends State<RegisterScreen> {
                             ),
                             //TODO: Save password value for AuthProvider.register().
                             //TODO: Send password to Firebase Authentication security.
-                            validator: (value){
-                              if(value == null || value.isEmpty)
-                                {
-                                  return 'يرجى إدخال كلمة المرور';
-                                }
-                              else
-                                {
-                                  return null;
-                                }
-                            },
+                            validator: (value) =>
+                            value == null || value.isEmpty
+                                ? 'أدخل كلمة المرور'
+                                : null,
                           ),
                           SizedBox(height: 20,),
                           const Align(
@@ -243,6 +284,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                           ),
                           SizedBox(height: 8,),
                           TextFormField(
+                            controller: _confirmController,
                             obscureText: !_isConfirmPasswordVisible,
                             decoration: InputDecoration(
                               hintText: 'أعد إدخال كلمة المرور كلمة المرور',
@@ -266,16 +308,10 @@ class _RegisterScreenState extends State<RegisterScreen> {
                               ),
                             ),
                             //TODO: Compare confirm password with password before calling AuthProvider.register()
-                            validator: (value){
-                              if(value == null || value.isEmpty)
-                              {
-                                return 'يرجى تأكيد كلمة المرور';
-                              }
-                              else
-                              {
-                                return null;
-                              }
-                            },
+                            validator: (value) =>
+                            value == null || value.isEmpty
+                                ? 'أكد كلمة المرور'
+                                : null,
                           ),
                           const SizedBox(height: 24,),
                           CheckboxListTile(
@@ -305,14 +341,16 @@ class _RegisterScreenState extends State<RegisterScreen> {
                             width: 190,
                             height: 52,
                             child: ElevatedButton(
-                                onPressed: (){
-                                  if(_formKey.currentState!.validate()){
+                              onPressed: _onRegister,
+                               // onPressed: (){
+                                  //if(_formKey.currentState!.validate()){
                                     //TODO: Call AuthProvider.register
                                     //TODO: Create Firebase Account
                                     //TODO: Save notification preference 
                                     //TODO: Navigate to HomeScreen after successful registration
-                                  }
-                                }, child: Text('إنشاء حساب',
+                                 // }
+                             //   },
+                              child: Text('إنشاء حساب',
                             style: TextStyle(
                               fontSize: 16,
                               fontWeight: FontWeight.bold
@@ -375,6 +413,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                 color: greyText
                               ),),
                               TextButton(onPressed: (){
+                                Navigator.pushNamed(context,'/');
                                 //TODO : Navigate to LoginScreen
                               }, child: const Text('تسجيل الدخول',
                               style: TextStyle(

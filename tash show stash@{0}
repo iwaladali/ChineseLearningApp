@@ -1,0 +1,38 @@
+*[33m-[m[33m.[m   [33mfffe148[m[33m ([m[1;35mrefs/stash[m[33m)[m WIP on main: ef50edc test
+[31m|[m[32m\[m [33m\[m  
+[31m|[m [32m|[m * [33m9ae981c[m untracked files on main: ef50edc test
+[31m|[m * [33m0883667[m index on main: ef50edc test
+[31m|[m[31m/[m  
+* [33mef50edc[m[33m ([m[1;32mmain[m[33m)[m test
+*   [33m4f77de4[m[33m ([m[1;31morigin/main[m[33m, [m[1;31morigin/HEAD[m[33m)[m Merge pull request #10 from iwaladali/Bahaa
+[34m|[m[35m\[m  
+[34m|[m *   [33m71f2011[m[33m ([m[1;31morigin/Bahaa[m[33m)[m Merge branch 'main' into Bahaa
+[34m|[m [36m|[m[34m\[m  
+[34m|[m [36m|[m[34m/[m  
+[34m|[m[34m/[m[36m|[m   
+* [36m|[m   [33m184b801[m Merge pull request #11 from iwaladali/ibrahim
+[1;32m|[m[1;33m\[m [36m\[m  
+[1;32m|[m * [36m|[m [33m48632ac[m[33m ([m[1;31morigin/ibrahim[m[33m)[m Resolve Baha Conflicts
+[1;32m|[m[1;32m/[m [36m/[m  
+* [36m|[m   [33m6635be0[m Merge pull request #9 from iwaladali/ibrahim
+[1;34m|[m[1;35m\[m [36m\[m  
+[1;34m|[m * [36m|[m [33mdff7c81[m Add Audio future
+[1;34m|[m[1;34m/[m [36m/[m  
+* [36m|[m   [33m1a7cb0c[m Merge pull request #7 from iwaladali/george
+[1;36m|[m[31m\[m [36m\[m  
+[1;36m|[m * [36m\[m   [33m22c49c6[m[33m ([m[1;31morigin/george[m[33m)[m Merge pull request #6 from iwaladali/main
+[1;36m|[m [32m|[m[1;36m\[m [36m\[m  
+[1;36m|[m [32m|[m[1;36m/[m [36m/[m  
+[1;36m|[m[1;36m/[m[32m|[m [36m|[m   
+* [32m|[m [36m|[m   [33mce52ee5[m Merge pull request #5 from iwaladali/george
+[34m|[m[35m\[m [32m\[m [36m\[m  
+[34m|[m [35m|[m * [36m|[m [33mcd1101e[m Fix Scrollable
+[34m|[m [35m|[m[35m/[m [36m/[m  
+[34m|[m * [36m/[m [33m69ccaa3[m Make a Basics of UI/UX Design
+[34m|[m[34m/[m [36m/[m  
+* [36m|[m   [33m7555173[m Merge pull request #4 from iwaladali/ibrahim
+[36m|[m[1;31m\[m [36m\[m  
+[36m|[m * [36m|[m [33m208ba78[m Add Voice Future
+[36m|[m [1;31m|[m * [33m864fd2a[m Added pronciation training screnn
+[36m|[m [1;31m|[m * [33m22738ea[m Added progress screen without charts
+[36m|[m [1;31m|[m * [33maddefd2[m Added word details screen UI and make small change on word info card (added onTap)

@@ -8,7 +8,8 @@ import 'screens/AnotherWidget.dart';
 import 'screens/NotificationWidget.dart';
 import 'screens/HomePage.dart';
 import 'screens/SettingsWidget.dart';
-
+import 'package:flutter_project/providers/auth_provider.dart';
+import 'package:flutter_project/services/auth_service.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:provider/provider.dart';
 
@@ -39,12 +40,24 @@ void main() async {
   );
 
   runApp(
-    MultiProvider(providers: [
-      ChangeNotifierProvider(create: (_)=>VocabularyProvider()),
-      ChangeNotifierProvider(create: (_)=>SpeechProvider()),
-    ],
-      child: MyApp(),
-    ),
+      MultiProvider(
+        providers: [
+          ChangeNotifierProvider(
+            create: (_) => AuthenticatProvider(
+              authService: AuthService(),
+            ),
+          ),
+
+          ChangeNotifierProvider(
+            create: (_) => VocabularyProvider(),
+          ),
+
+          ChangeNotifierProvider(
+            create: (_) => SpeechProvider(),
+          ),
+        ],
+        child: MyApp(),
+      ),
   );
 }
 
@@ -56,7 +69,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
 
       routes: {
-        '/' : (BuildContext ctx) => HomePage(),
+        '/home' : (BuildContext ctx) => HomePage(),
         '/food': (BuildContext ctx) => Food(),
         '/language': (BuildContext ctx) => Language(),
         '/another': (BuildContext ctx) => Another(),
@@ -64,7 +77,10 @@ class MyApp extends StatelessWidget {
         '/setting' : (BuildContext ctx) => Settings(),
         '/notification' : (BuildContext ctx) => NotificationWidget(),
         '/addVocabulary' : (BuildContext ctx) => VocabularyAdd(),
-        '/showVocabulary' : (BuildContext ctx) => VocabularyShow()
+        '/showVocabulary' : (BuildContext ctx) => VocabularyShow(),
+        '/' : (BuildContext ctx) => LoginScreen(),
+        '/register' : (BuildContext ctx) => RegisterScreen(),
+
       },
     );
   }
