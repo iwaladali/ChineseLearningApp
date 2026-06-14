@@ -1,3 +1,15 @@
+import 'package:flutter/material.dart';
+import 'package:flutter_project/screens/vocabulary_add.dart';
+import 'package:flutter_project/screens/vocabulary_show.dart';
+import 'screens/VehicleWidget.dart';
+import 'screens/LanguageWidget.dart';
+import 'screens/FoodWidget.dart';
+import 'screens/AnotherWidget.dart';
+import 'screens/NotificationWidget.dart';
+import 'screens/HomePage.dart';
+import 'screens/SettingsWidget.dart';
+import 'package:flutter_project/providers/auth_provider.dart';
+import 'package:flutter_project/services/auth_service.dart';
 // import 'package:flutter/material.dart';
 // import 'package:flutter_project/screens/vocabulary_add.dart';
 // import 'package:flutter_project/screens/vocabulary_show.dart';
@@ -93,8 +105,14 @@ void main() async {
   );
 
   runApp(
+     
     MultiProvider(
       providers: [
+         ChangeNotifierProvider(
+            create: (_) => AuthenticatProvider(
+              authService: AuthService(),
+            ),
+          ),
         ChangeNotifierProvider(
           create: (_) => VocabularyProvider(),
         ),
