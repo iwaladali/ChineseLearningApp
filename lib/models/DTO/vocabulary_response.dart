@@ -1,14 +1,16 @@
 
 class VocabularyResponse{
+  int id;
   String arabic;
   String chinese;
   String pinyin;
   String category;
-  VocabularyResponse({required this.arabic, required this.chinese,
+  VocabularyResponse({required this.id, required this.arabic, required this.chinese,
     required this.pinyin, required this.category });
 
   factory VocabularyResponse.fromMap(Map<String, dynamic> map) {
     return VocabularyResponse(
+      id: map['id'] ?? '',
       arabic: map['arabic'] ?? '',
       chinese:  map['chinese']  ?? '',
       pinyin:  map['pinyin']  ?? '',
@@ -20,6 +22,7 @@ class VocabularyResponse{
   Map<String, dynamic> GetfromMap() {
 
     return  <String, dynamic>{
+      'id':id,
       'arabic': arabic,
     'chinese':chinese,
     'pinyin':pinyin,

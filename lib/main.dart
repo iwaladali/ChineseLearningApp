@@ -123,13 +123,16 @@ class MyApp extends StatelessWidget {
         '/Progress': (BuildContext ctx) => const ProgressScreen(),
         '/Pronunciation': (BuildContext ctx) => const PronunciationTrainingScreen(),
         '/LoginScreen': (BuildContext ctx) => const LoginScreen(),
-        '/': (BuildContext ctx) => const VocabularyScreen(),
+        '/VocabularyScreen': (BuildContext ctx) => const VocabularyScreen(),
+
         '/addVocabulary': (BuildContext ctx) => VocabularyAdd(),
         '/showVocabulary': (BuildContext ctx) => VocabularyShow(),
         '/RegisterScreen': (BuildContext ctx) => RegisterScreen(),
-        '/HomeScreen': (BuildContext ctx) => HomeScreen(),
+        '/': (BuildContext ctx) => HomeScreen(),
         '/wordDetails': (BuildContext ctx) => WordDetailsScreen(),
         '/PronunciationTrainingScreen': (BuildContext ctx) => PronunciationTrainingScreen(),
+        '/Settings': (BuildContext ctx) => Settings(),
+
 
       },
     );
