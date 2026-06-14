@@ -22,5 +22,16 @@ class PronunciationResult {
       grade:     map['grade']     ?? 'Poor',
     );
   }
+  Map<String, dynamic> GetfromMap() {
+
+    return  <String, dynamic>{
+      'wordHeard': wordHeard,
+      'accuracy':accuracy,
+      'feedback':feedback,
+      'tip':tip,
+      'grade':grade,
+
+    };
+  }
 }
  

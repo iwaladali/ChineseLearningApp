@@ -1,5 +1,8 @@
 
 import 'package:flutter/material.dart';
+import 'package:flutter_project/models/DTO/learned_word.dart';
+import 'package:flutter_project/services/learned_word.dart';
+import 'package:flutter_project/services/profile_service.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:record/record.dart';
 import 'package:flutter_project/services/audio_service.dart';
@@ -17,7 +20,8 @@ class AudioProvider with ChangeNotifier {
   String? errorMessage;
 
 
-  Future<void> startRecording() async {
+  Future<void> startRecording() async
+  {
     if (!await _recorder.hasPermission()) {
       errorMessage = 'Microphone permission denied';
       notifyListeners();
@@ -47,7 +51,8 @@ class AudioProvider with ChangeNotifier {
   Future<void> stopAndAnalyze({
     required String correctWord,
     required String language,
-  }) async {
+  }) async
+  {
     await _recorder.stop();
 
     isRecording = false;
@@ -65,6 +70,7 @@ class AudioProvider with ChangeNotifier {
     } catch (e) {
       errorMessage = 'Analysis failed: $e';
     }
+
 
     isAnalyzing = false;
     notifyListeners();
