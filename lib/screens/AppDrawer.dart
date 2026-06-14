@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+
+import '../providers/auth_provider.dart';
 
 class AppDrawer extends StatelessWidget {
   const AppDrawer({super.key});
@@ -81,6 +84,26 @@ class AppDrawer extends StatelessWidget {
               title: Text('notification'),
               onTap: () =>
                   Navigator.pushNamed(context, '/notification'),
+            ),
+          ),
+          Container(
+            height: 60,
+            decoration: BoxDecoration(
+              color: Colors.grey.shade200,
+              borderRadius: BorderRadius.circular(15),
+            ),
+            child: ListTile(
+              leading: Icon(Icons.logout),
+              title: Text('Log out'),
+              onTap: () async {
+                final auth = Provider.of<AuthenticatProvider>(context, listen: false,);
+                await auth.signOut();
+                if (!context.mounted) return;
+                Navigator.pushNamed(context, '/');
+
+              },
+             // onTap: () =>
+              //    Navigator.pushNamed(context, '/login'),
             ),
           ),
 
