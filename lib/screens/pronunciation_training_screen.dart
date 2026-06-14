@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_project/models/DTO/learned_word.dart';
 import 'package:flutter_project/models/DTO/vocabulary_response.dart';
 import 'package:flutter_project/providers/audio_provider.dart';
+import 'package:flutter_project/providers/profile_provider.dart';
+import 'package:flutter_project/services/learned_word.dart';
 import 'package:flutter_project/widgets/pronunciation_word_card.dart';
 import 'package:provider/provider.dart';
 
@@ -57,6 +60,7 @@ class _PronunciationTrainingScreenState
      String arabic = vocab.arabic;
 
     final audioProvider = Provider.of<AudioProvider>(context);
+    final profileProvider = context.read<ProfileProvider>();
 
     return Directionality(
       textDirection: TextDirection.rtl,
@@ -118,7 +122,7 @@ class _PronunciationTrainingScreenState
                     const SizedBox(height: 28),
 
                     GestureDetector(
-                      onTap: () {
+                      onTap: () async{
                         setState(() {
                           _isRecording = !_isRecording;
                         });
@@ -127,7 +131,6 @@ class _PronunciationTrainingScreenState
                           // TODO: Start microphone recording using SpeechProvider.
                           audioProvider.startRecording();
                         } else {
-
                           audioProvider.stopAndAnalyze(correctWord: hanzi,
                               language: "Chinese");
                           // TODO: Stop microphone recording.
@@ -135,9 +138,33 @@ class _PronunciationTrainingScreenState
                           // TODO: Display pronunciation score.
                           // TODO: Save pronunciation result in Firestore.
                           // TODO: Update ProgressProvider pronunciation statistics.
-                        //  while(audioProvider.isAnalyzing);
-                          print("Hello");
-                          showResultSnackBar(context, audioProvider.result!.GetfromMap() );
+
+                          const int dailyGoal = 10;
+
+                          int newWordsLearned = profileProvider.profile!
+                              .wordsLearned + 1;
+                          double newProgress = newWordsLearned /dailyGoal;
+
+                          if (audioProvider.result != null &&
+                              audioProvider.result!.accuracy >= 70) {
+                            int newWordsLearned = profileProvider.profile!
+                                .wordsLearned + 1;
+                            double newProgress = newWordsLearned / dailyGoal;
+
+                            await LearnedWordsService().markAsLearned(
+                              LearnedWord(
+                                wordId: vocab.id.toString(),
+                                chinese: vocab.chinese,
+                                score: audioProvider.result!.accuracy,
+                              ),
+                            );
+
+                            // ── تحديث البروفايل ───────────────────────────
+                            await profileProvider.updateProgress(
+                              wordsLearned: newWordsLearned,
+                              todayProgress: newProgress,
+                            );
+                          }
                         }
                       },
                       child: Container(

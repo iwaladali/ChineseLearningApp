@@ -1,5 +1,8 @@
 
 import 'package:flutter/material.dart';
+import 'package:flutter_project/models/DTO/learned_word.dart';
+import 'package:flutter_project/services/learned_word.dart';
+import 'package:flutter_project/services/profile_service.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:record/record.dart';
 import 'package:flutter_project/services/audio_service.dart';
@@ -67,6 +70,7 @@ class AudioProvider with ChangeNotifier {
     } catch (e) {
       errorMessage = 'Analysis failed: $e';
     }
+
 
     isAnalyzing = false;
     notifyListeners();
