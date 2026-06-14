@@ -246,6 +246,8 @@ class _LoginScreenState extends State<LoginScreen> {
                             fontSize: 14)
                             ),
                             TextButton(onPressed: (){
+                              Navigator.pushNamed(context, '/RegisterScreen');
+
                               // TODO: Navigate to RegisterScreen
                               Navigator.pushNamed(context, '/register');
                             }, child: const Text('إنشاء حساب جديد',

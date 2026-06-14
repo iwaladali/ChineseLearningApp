@@ -78,6 +78,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         IconButton(
                           onPressed: () {
                             // TODO: Navigate to SettingsScreen.
+                            Navigator.pushNamed(context, "/Settings");
                           },
                           icon: const Icon(
                             Icons.settings,
@@ -147,6 +148,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                   onPressed: () {
                                     // TODO: Navigate to Vocabulary/Learning screen.
                                     // TODO: Load today's words from VocabularyProvider.
+                                    Navigator.pushNamed(context, "/VocabularyScreen");
                                   },
                                   child: const Text(
                                     'واصل التعلم',
@@ -225,6 +227,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           onTap: () {
                             // TODO: Navigate to VocabularyScreen.
                             // TODO: Load vocabulary list from VocabularyProvider.
+                            Navigator.pushNamed(context, "/VocabularyScreen");
                           },
                         ),
                         HomeCategoryCard(
@@ -234,6 +237,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           onTap: () {
                             // TODO: Navigate to PronunciationScreen.
                             // TODO: Connect with PronunciationProvider.
+                            Navigator.pushNamed(context, '/Pronunciation');
                           },
                         ),
                         HomeCategoryCard(
@@ -252,6 +256,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           onTap: () {
                             // TODO: Navigate to ProgressScreen.
                             // TODO: Load progress data from ProgressProvider.
+                            Navigator.pushNamed(context, '/Progress');
                           },
                         ),
                       ],
