@@ -23,6 +23,14 @@ class _PronunciationTrainingScreenState
   static const Color greyText = Color(0xFF9CA3AF);
   static const Color lightRed = Color(0xFFFDEAEA);
 
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      print('Home Profile: ${context.read<ProfileProvider>().profile?.displayName}');
+    });
+  }
+
   void showResultSnackBar(
       BuildContext context,
       Map<String, dynamic> result,
@@ -131,26 +139,45 @@ class _PronunciationTrainingScreenState
                           // TODO: Start microphone recording using SpeechProvider.
                           audioProvider.startRecording();
                         } else {
-                          audioProvider.stopAndAnalyze(correctWord: hanzi,
+                        await  audioProvider.stopAndAnalyze(correctWord: hanzi,
                               language: "Chinese");
                           // TODO: Stop microphone recording.
                           // TODO: Send audio to pronunciation evaluation service.
                           // TODO: Display pronunciation score.
                           // TODO: Save pronunciation result in Firestore.
                           // TODO: Update ProgressProvider pronunciation statistics.
+                          showResultSnackBar(context, audioProvider.result!.GetfromMap() );
 
                           const int dailyGoal = 10;
-
-                          int newWordsLearned = profileProvider.profile!
-                              .wordsLearned + 1;
+                            print("======================================");
+                            print("======================================");
+                            print("======================================");
+                          int newWordsLearned = profileProvider.profile!.wordsLearned + 1;
                           double newProgress = newWordsLearned /dailyGoal;
 
+                            print("======================================");
+                            print("======================================");
+                            print("======================================");
+                            print(audioProvider.result!=null);
+                            print("======================================");
+                            print("======================================");
+                            print("======================================");
+                            print("======================================");
                           if (audioProvider.result != null &&
-                              audioProvider.result!.accuracy >= 70) {
+                              audioProvider.result!.accuracy >= 20) {
+                            print("======================================");
+                            print("======================================");
+                            print("======================================");
+                            print("======================================");
+                            print("======================================");
+                            print("======================================");
+                            print("======================================");
+                            print("======================================");
                             int newWordsLearned = profileProvider.profile!
                                 .wordsLearned + 1;
                             double newProgress = newWordsLearned / dailyGoal;
-
+                            print('saving...');
+                            print('wordId: ${vocab.id}');
                             await LearnedWordsService().markAsLearned(
                               LearnedWord(
                                 wordId: vocab.id.toString(),
@@ -158,6 +185,11 @@ class _PronunciationTrainingScreenState
                                 score: audioProvider.result!.accuracy,
                               ),
                             );
+                            print('saved!');
+                            print("=============-------------------==============");
+                            print("=============-------------------==============");
+                            print("=============-------------------==============");
+                            print("=============-------------------==============");
 
                             // ── تحديث البروفايل ───────────────────────────
                             await profileProvider.updateProgress(
