@@ -5,19 +5,19 @@ import 'package:provider/provider.dart';
 import 'firebase_options.dart';
 
 import 'package:flutter_project/providers/vocabulary_provider.dart';
+import 'package:flutter_project/providers/speech_provider.dart';
 
-import 'package:flutter_project/screens/splash_screen.dart';
+import 'package:flutter_project/screens/VehicleWidget.dart';
+import 'package:flutter_project/screens/LanguageWidget.dart';
+import 'package:flutter_project/screens/FoodWidget.dart';
+import 'package:flutter_project/screens/AnotherWidget.dart';
+import 'package:flutter_project/screens/NotificationWidget.dart';
+import 'package:flutter_project/screens/HomePage.dart';
+import 'package:flutter_project/screens/SettingsWidget.dart';
+
 import 'package:flutter_project/screens/login_screen.dart';
-import 'package:flutter_project/screens/register_screen.dart';
 import 'package:flutter_project/screens/vocabulary_add.dart';
 import 'package:flutter_project/screens/vocabulary_show.dart';
-import 'package:flutter_project/screens/forgot_password_screen.dart';
-import 'package:flutter_project/screens/home_screen.dart';
-import 'package:flutter_project/screens/profile_screen.dart';
-import 'package:flutter_project/screens/vocabulary_screen.dart';
-import 'package:flutter_project/screens/word_details_screen.dart';
-import 'package:flutter_project/screens/progress_screen.dart';
-import 'package:flutter_project/screens/pronunciation_training_screen.dart';
 import 'package:flutter_project/screens/quiz_screen.dart';
 
 void main() async {
@@ -30,9 +30,8 @@ void main() async {
   runApp(
     MultiProvider(
       providers: [
-        ChangeNotifierProvider(
-          create: (_) => VocabularyProvider(),
-        ),
+        ChangeNotifierProvider(create: (_) => VocabularyProvider()),
+        ChangeNotifierProvider(create: (_) => SpeechProvider()),
       ],
       child: const MyApp(),
     ),
@@ -45,15 +44,21 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      debugShowCheckedModeBanner: false,
-
       routes: {
-        '/': (BuildContext ctx) => const QuizScreen(),
+        '/': (BuildContext ctx) => HomePage(),
 
         '/login': (BuildContext ctx) => const LoginScreen(),
 
-        '/addVocabulary': (BuildContext ctx) => VocabularyAdd(),
+        '/food': (BuildContext ctx) => Food(),
+        '/language': (BuildContext ctx) => Language(),
+        '/another': (BuildContext ctx) => Another(),
+        '/vehicle': (BuildContext ctx) => Vehicle(),
+        '/setting': (BuildContext ctx) => Settings(),
+        '/notification': (BuildContext ctx) => NotificationWidget(),
 
+        '/quiz': (BuildContext ctx) => const QuizScreen(),
+
+        '/addVocabulary': (BuildContext ctx) => VocabularyAdd(),
         '/showVocabulary': (BuildContext ctx) => VocabularyShow(),
       },
     );
