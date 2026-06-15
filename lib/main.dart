@@ -16,12 +16,10 @@ import 'package:provider/provider.dart';
 import 'firebase_options.dart';
 
 import 'package:flutter_project/providers/vocabulary_provider.dart';
-
+import 'auth_check.dart';
 import 'package:flutter_project/screens/splash_screen.dart';
 import 'package:flutter_project/screens/login_screen.dart';
 import 'package:flutter_project/screens/register_screen.dart';
-import 'package:flutter_project/screens/vocabulary_add.dart';
-import 'package:flutter_project/screens/vocabulary_show.dart';
 import 'package:flutter_project/screens/forgot_password_screen.dart';
 import 'package:flutter_project/screens/home_screen.dart';
 import 'package:flutter_project/screens/profile_screen.dart';
@@ -69,15 +67,16 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
 
       routes: {
-        '/home' : (BuildContext ctx) => HomePage(),
-        '/food': (BuildContext ctx) => Food(),
-        '/language': (BuildContext ctx) => Language(),
-        '/another': (BuildContext ctx) => Another(),
-        '/vehicle': (BuildContext ctx) => Vehicle(),
-        '/setting' : (BuildContext ctx) => Settings(),
-        '/notification' : (BuildContext ctx) => NotificationWidget(),
-        '/addVocabulary' : (BuildContext ctx) => VocabularyAdd(),
-        '/showVocabulary' : (BuildContext ctx) => VocabularyShow(),
+
+        '/home' : (BuildContext ctx) => AuthCheck(child: HomePage(),),
+        '/food': (BuildContext ctx) =>AuthCheck(child: Food(),),
+        '/language': (BuildContext ctx) =>AuthCheck(child: Language(),),
+        '/another': (BuildContext ctx) => AuthCheck(child: Another(),),
+        '/vehicle': (BuildContext ctx) =>AuthCheck(child: Vehicle(),),
+        '/setting' : (BuildContext ctx) => AuthCheck(child: Settings(),),
+        '/notification' : (BuildContext ctx) => AuthCheck(child: NotificationWidget(),),
+        '/addVocabulary' : (BuildContext ctx) => AuthCheck(child: VocabularyAdd(),),
+        '/showVocabulary' : (BuildContext ctx) => AuthCheck(child: VocabularyShow(),),
         '/' : (BuildContext ctx) => LoginScreen(),
         '/register' : (BuildContext ctx) => RegisterScreen(),
 

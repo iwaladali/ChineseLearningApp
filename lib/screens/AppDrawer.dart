@@ -100,7 +100,6 @@ class AppDrawer extends StatelessWidget {
                 await auth.signOut();
                 if (!context.mounted) return;
                 Navigator.pushNamed(context, '/');
-
               },
              // onTap: () =>
               //    Navigator.pushNamed(context, '/login'),
