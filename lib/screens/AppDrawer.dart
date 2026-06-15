@@ -58,7 +58,7 @@ class AppDrawer extends StatelessWidget {
               leading: Icon(Icons.home),
               title: Text('Home'),
               onTap: () =>
-                  Navigator.pushNamed(context, '/'),
+                  Navigator.pushNamed(context, '/home'),
             ),
           ),
           Container(
