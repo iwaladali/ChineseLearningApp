@@ -1,74 +1,103 @@
-import 'package:flutter_project/models/DTO/audio_result.dart';
 import 'dart:convert';
 import 'dart:io';
 import 'package:http/http.dart' as http;
-
+import '../models/DTO/audio_result.dart';
 
 class AudioService {
-  final String _apiKey = '';
-  final String _url =
-      'https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent';
+  final String _groqKey = '';
 
   Future<PronunciationResult> analyzeAudio({
     required String audioFilePath,
     required String correctWord,
     required String language,
   }) async {
-    final audioBytes = await File(audioFilePath).readAsBytes();
-    final audioBase64 = base64Encode(audioBytes);
+    // ── STEP 1: Groq Whisper → نص ──────────────────
+    final spokenText = await _transcribeWithGroq(audioFilePath, language);
+    print('Groq heard: $spokenText');
 
+    // ── STEP 2: Groq LLaMA → تحليل ─────────────────
+    return await _analyzeWithGroq(
+      spokenText:  spokenText,
+      correctWord: correctWord,
+      language:    language,
+    );
+  }
+
+  // ── STEP 1: Whisper ───────────────────────────────
+  Future<String> _transcribeWithGroq(String audioFilePath, String language) async {
+    final bytes    = await File(audioFilePath).readAsBytes();
+    final fileName = audioFilePath.split('/').last;
+    final langCode = language.toLowerCase() == 'chinese' ? 'zh' : 'ar';
+
+    for (int attempt = 1; attempt <= 3; attempt++) {
+      final request = http.MultipartRequest(
+        'POST',
+        Uri.parse('https://api.groq.com/openai/v1/audio/transcriptions'),
+      );
+
+      request.headers['Authorization']   = 'Bearer $_groqKey';
+      request.fields['model']            = 'whisper-large-v3-turbo';
+      request.fields['language']         = langCode;
+      request.fields['response_format']  = 'text';
+      request.files.add(
+        http.MultipartFile.fromBytes('file', bytes, filename: fileName),
+      );
+
+      final response = await request.send();
+      final body     = await response.stream.bytesToString();
+
+      if (response.statusCode == 200) return body.trim();
+
+      print('Whisper attempt $attempt failed: $body');
+      await Future.delayed(const Duration(seconds: 2));
+    }
+
+    throw Exception('Groq Whisper failed after 3 attempts');
+  }
+
+  // ── STEP 2: LLaMA ─────────────────────────────────
+  Future<PronunciationResult> _analyzeWithGroq({
+    required String spokenText,
+    required String correctWord,
+    required String language,
+  }) async {
     final response = await http.post(
-      Uri.parse('$_url?key=$_apiKey'),
-      headers: {'Content-Type': 'application/json'},
+      Uri.parse('https://api.groq.com/openai/v1/chat/completions'),
+      headers: {
+        'Authorization': 'Bearer $_groqKey',
+        'Content-Type':  'application/json',
+      },
       body: jsonEncode({
-        'contents': [
+        'model': 'llama-3.3-70b-versatile',
+        'temperature': 0.1,
+        'messages': [
           {
-            'parts': [
+            'role': 'system',
+            'content': '''
+              You are an expert $language pronunciation coach.
+              Always reply ONLY in this exact JSON format, no extra text:
               {
-                'inline_data': {
-                  'mime_type': 'audio/aac',
-                  'data': audioBase64,
-                }
-              },
-              {
-                'text': '''
-                  You are an expert $language pronunciation coach.
-                  The correct word the user should say is: "$correctWord"
-
-                  Listen to the audio carefully and analyze:
-                  1. What word did the user actually say?
-                  2. How accurate is their pronunciation? (0-100)
-                  3. What specific mistakes did they make?
-                  4. One tip to improve
-
-                  Reply ONLY in this exact JSON format (no extra text):
-                  {
-                    "word_heard": "what you heard",
-                    "accuracy": 85,
-                    "feedback": "Your pronunciation was good but...",
-                    "tip": "Focus on...",
-                    "grade": "Excellent"
-                  }
-
-                  grade must be one of: Excellent, Good, Fair, Poor
-                '''
+                "word_heard": "...",
+                "accuracy": 85,
+                "feedback": "...",
+                "tip": "...",
+                "grade": "Good"
               }
-            ]
+              grade must be one of: Excellent, Good, Fair, Poor
+            '''
+          },
+          {
+            'role': 'user',
+            'content': 'Correct word: "$correctWord". User said: "$spokenText". Analyze.'
           }
-        ]
+        ],
       }),
     );
 
-    final data = jsonDecode(response.body);
-    print('STATUS: ${response.statusCode}');
-    print('BODY: ${response.body}');
-    final text = data['candidates'][0]['content']['parts'][0]['text'] as String;
-    final cleanJson = text
-        .replaceAll('```json', '')
-        .replaceAll('```', '')
-        .trim();
-    final map = jsonDecode(cleanJson) as Map<String, dynamic>;
+    final data      = jsonDecode(response.body);
+    final text      = data['choices'][0]['message']['content'] as String;
+    final cleanJson = text.replaceAll('```json', '').replaceAll('```', '').trim();
 
-    return PronunciationResult.fromMap(map);
+    return PronunciationResult.fromMap(jsonDecode(cleanJson));
   }
 }
