@@ -41,7 +41,7 @@ class ProfileProvider with ChangeNotifier {
     if (profile != null) {
       profile = UserProfile(
         id:            profile!.id,
-        name:          profile!.name,
+        displayName:          profile!.displayName,
         level:         profile!.level,
         wordsLearned:  wordsLearned,
         todayProgress: todayProgress,

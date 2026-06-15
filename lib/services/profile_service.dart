@@ -15,16 +15,15 @@ class ProfileService {
   Future<UserProfile?> getProfile() async {
     if (_uid == null) return null;
 
-    final doc = await _db.collection('users').doc(_uid).get();
+    final doc = await _db.collection('Users').doc(_uid).get();
     if (!doc.exists) return null;
 
     return UserProfile.fromMap(doc.id, doc.data()!);
   }
-
   // ── تحديث البروفايل ───────────────────────────────
   Future<void> updateProfile(UserProfile profile) async {
     if (_uid == null) return;
-    await _db.collection('users').doc(_uid).set(
+    await _db.collection('Users').doc(_uid).set(
       profile.toMap(),
       SetOptions(merge: true),
     );
@@ -36,7 +35,7 @@ class ProfileService {
     required double todayProgress,
   }) async {
     if (_uid == null) return;
-    await _db.collection('users').doc(_uid).update({
+    await _db.collection('Users').doc(_uid).update({
       'wordsLearned':  wordsLearned,
       'todayProgress': todayProgress,
     });

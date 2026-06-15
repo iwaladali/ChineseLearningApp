@@ -1,10 +1,11 @@
 import 'dart:convert';
 import 'dart:io';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:http/http.dart' as http;
 import '../models/DTO/audio_result.dart';
 
 class AudioService {
-  final String _groqKey = '';
+  final String _groqKey = dotenv.env['GROQ_API_KEY']! ;
 
   Future<PronunciationResult> analyzeAudio({
     required String audioFilePath,
