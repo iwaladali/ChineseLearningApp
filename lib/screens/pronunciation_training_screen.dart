@@ -149,36 +149,20 @@ class _PronunciationTrainingScreenState
                           showResultSnackBar(context, audioProvider.result!.GetfromMap() );
 
                           const int dailyGoal = 10;
-                            print("======================================");
-                            print("======================================");
-                            print("======================================");
+
                           int newWordsLearned = profileProvider.profile!.wordsLearned + 1;
                           double newProgress = newWordsLearned /dailyGoal;
 
-                            print("======================================");
-                            print("======================================");
-                            print("======================================");
-                            print(audioProvider.result!=null);
-                            print("======================================");
-                            print("======================================");
-                            print("======================================");
-                            print("======================================");
+
                           if (audioProvider.result != null &&
-                              audioProvider.result!.accuracy >= 20) {
-                            print("======================================");
-                            print("======================================");
-                            print("======================================");
-                            print("======================================");
-                            print("======================================");
-                            print("======================================");
-                            print("======================================");
-                            print("======================================");
+                              audioProvider.result!.accuracy >= 70) {
+
                             int newWordsLearned = profileProvider.profile!
                                 .wordsLearned + 1;
                             double newProgress = newWordsLearned / dailyGoal;
                             print('saving...');
                             print('wordId: ${vocab.id}');
-                            await LearnedWordsService().markAsLearned(
+                           final x= await LearnedWordsService().markAsLearned(
                               LearnedWord(
                                 wordId: vocab.id.toString(),
                                 chinese: vocab.chinese,
@@ -186,16 +170,17 @@ class _PronunciationTrainingScreenState
                               ),
                             );
                             print('saved!');
-                            print("=============-------------------==============");
-                            print("=============-------------------==============");
-                            print("=============-------------------==============");
-                            print("=============-------------------==============");
 
-                            // ── تحديث البروفايل ───────────────────────────
+
+                            if(!x){
                             await profileProvider.updateProgress(
                               wordsLearned: newWordsLearned,
                               todayProgress: newProgress,
                             );
+
+                            }
+
+
                           }
                         }
                       },

@@ -22,13 +22,11 @@ class LearnedWordsService {
   }
 
   // إضافة كلمة جديدة
-  Future<void> markAsLearned(LearnedWord word) async {
-    print('-=========================================================------');           // تأكد إن الـ uid مش null
-    print('UID: $_uid');           // تأكد إن الـ uid مش null
-    print('WordId: ${word.wordId}'); // تأكد إن الـ wordId مش فارغ
+  Future<bool> markAsLearned(LearnedWord word) async {
+    final is_there = await _ref.doc(word.wordId).get();
     await _ref.doc(word.wordId).set(word.toMap());
-    print('Done!');
-    print('-=========================================================------');           // تأكد إن الـ uid مش null
+    return is_there.exists;
+
   }
 
   // تحقق إذا الكلمة اتعلمت

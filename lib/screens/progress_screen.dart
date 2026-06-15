@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_project/providers/profile_provider.dart';
 import 'package:flutter_project/widgets/progress_stat_card.dart';
 import 'package:flutter_project/widgets/achievement_tile.dart';
+import 'package:provider/provider.dart';
 
 class ProgressScreen extends StatelessWidget {
   const ProgressScreen({super.key});
@@ -16,6 +18,7 @@ class ProgressScreen extends StatelessWidget {
     // TODO: Replace static statistics with provider values.
     // TODO: Load achievements from Firestore.
     // TODO: Add charts later after connecting ProgressProvider data.
+    final profileProvider = Provider.of<ProfileProvider>(context);
 
     return Directionality(
       textDirection: TextDirection.rtl,
@@ -99,7 +102,7 @@ class ProgressScreen extends StatelessWidget {
                                 ),
                                 SizedBox(height: 8),
                                 Text(
-                                  'مبتدئ - المستوى 1',
+                                  'مبتدئ - المستوى 2',
                                   style: TextStyle(
                                     color: Colors.white,
                                     fontSize: 23,
@@ -148,18 +151,18 @@ class ProgressScreen extends StatelessWidget {
                         physics: const NeverScrollableScrollPhysics(),
                         mainAxisSpacing: 18,
                         crossAxisSpacing: 18,
-                        childAspectRatio: 1.05,
-                        children: const [
+                        childAspectRatio: 0.9,
+                        children:  [
                           ProgressStatCard(
                             icon: Icons.menu_book,
                             iconColor: primaryRed,
-                            value: '20',
+                            value: '${profileProvider.profile!.wordsLearned}',
                             title: 'كلمة متعلمة',
                           ),
                           ProgressStatCard(
                             icon: Icons.mic,
                             iconColor: Color(0xFF2ECC71),
-                            value: '85%',
+                            value: '${(profileProvider.profile!.todayProgress*100).toInt()}%',
                             title: 'متوسط النطق',
                           ),
                           ProgressStatCard(
