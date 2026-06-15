@@ -247,6 +247,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           onTap: () {
                             // TODO: Navigate to QuizScreen.
                             // TODO: Load quizzes from QuizProvider.
+                            Navigator.pushNamed(context, '/QuizScreen');
                           },
                         ),
                         HomeCategoryCard(

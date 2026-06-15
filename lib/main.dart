@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_project/screens/register_screen.dart';
 import 'package:flutter_project/screens/vocabulary_add.dart';
 import 'package:flutter_project/screens/vocabulary_show.dart';
+import 'package:flutter_project/screens/quiz_screen.dart';
 import 'screens/VehicleWidget.dart';
 import 'screens/LanguageWidget.dart';
 import 'screens/FoodWidget.dart';
@@ -158,6 +160,7 @@ class MyApp extends StatelessWidget {
         '/wordDetails': (BuildContext ctx) => WordDetailsScreen(),
         '/PronunciationTrainingScreen': (BuildContext ctx) => PronunciationTrainingScreen(),
         '/Settings': (BuildContext ctx) => Settings(),
+        '/QuizScreen' : (BuildContext ctx) => QuizScreen(),
 
 
       },

@@ -10,7 +10,7 @@ class VocabularyResponse{
 
   factory VocabularyResponse.fromMap(Map<String, dynamic> map) {
     return VocabularyResponse(
-      id: map['id'] ?? '',
+      id: map['id'] ?? 0,
       arabic: map['arabic'] ?? '',
       chinese:  map['chinese']  ?? '',
       pinyin:  map['pinyin']  ?? '',
