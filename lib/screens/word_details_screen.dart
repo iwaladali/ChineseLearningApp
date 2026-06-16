@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_project/models/DTO/vocabulary_response.dart';
+import 'package:flutter_project/providers/speech_provider.dart';
 import 'package:flutter_project/widgets/word_info_card.dart';
+import 'package:provider/provider.dart';
 
 class WordDetailsScreen extends StatelessWidget {
   const WordDetailsScreen({super.key});
@@ -12,12 +15,16 @@ class WordDetailsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final speechProvider = Provider.of<SpeechProvider>(context);
+    final vocab =
+    ModalRoute.of(context)!.settings.arguments
+    as VocabularyResponse;
     // TODO: Receive selected Word model from previous screen.
     // TODO: Replace these static values with selected word data.
 
-    const String hanzi = '[If/Then/Else (2 Conditions)]';
-    const String pinyin = '[If/Then/Else (2 Conditions)]';
-    const String arabic = '[If/Then/Else (2 Conditions)]';
+    final String hanzi = vocab.chinese;
+    final String pinyin = vocab.pinyin;
+    final String arabic = vocab.arabic;
     
     return Directionality(
         textDirection: TextDirection.rtl,
@@ -81,7 +88,7 @@ class WordDetailsScreen extends StatelessWidget {
                                 size: 58,),
                               ),
                               const SizedBox(height: 34,),
-                              const Text(
+                               Text(
                                 hanzi,
                                 textAlign: TextAlign.center,
                                 style: TextStyle(
@@ -93,7 +100,7 @@ class WordDetailsScreen extends StatelessWidget {
                               
                               const SizedBox(height: 22,),
                               
-                              const Text(
+                               Text(
                                 pinyin,
                                 textAlign: TextAlign.center,
                                 style: TextStyle(
@@ -113,7 +120,7 @@ class WordDetailsScreen extends StatelessWidget {
 
                               const SizedBox(height: 28,),
 
-                              const Text(
+                               Text(
                                 arabic,
                                 textAlign: TextAlign.center,
                                 style: TextStyle(
@@ -152,6 +159,8 @@ class WordDetailsScreen extends StatelessWidget {
                             onPressed: (){
                               // TODO: Play pronunciation using SpeechProvider.
                               // TODO: Play selected word audio.
+                              speechProvider.speak_word(hanzi);
+
                             },
                             icon: const Icon(Icons.volume_up),
                             label: const Text('استمع للنطق',
@@ -167,6 +176,12 @@ class WordDetailsScreen extends StatelessWidget {
                        // TODO: Navigate to pronunciation training screen.
                         // TODO: Record user voice.
                         // TODO: Compare pronunciation result.
+                        Navigator.pushNamed(
+                          context,
+                          '/PronunciationTrainingScreen',
+                          arguments: vocab,
+                        );
+
                       },
                       icon: const Icon(
                         Icons.mic,
