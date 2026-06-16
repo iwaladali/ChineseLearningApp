@@ -1,4 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_project/screens/register_screen.dart';
+import 'package:flutter_project/screens/vocabulary_add.dart';
+import 'package:flutter_project/screens/vocabulary_show.dart';
+import 'package:flutter_project/screens/quiz_screen.dart';
+import 'screens/VehicleWidget.dart';
+import 'screens/LanguageWidget.dart';
+import 'screens/FoodWidget.dart';
+import 'screens/AnotherWidget.dart';
+import 'screens/NotificationWidget.dart';
+import 'screens/HomePage.dart';
 import 'package:flutter_project/providers/profile_provider.dart';
 import 'package:flutter_project/screens/vocabulary_add.dart';
 import 'package:flutter_project/screens/vocabulary_show.dart';
@@ -86,6 +96,7 @@ class MyApp extends StatelessWidget {
         '/wordDetails': (BuildContext ctx) => WordDetailsScreen(),
         '/PronunciationTrainingScreen': (BuildContext ctx) => PronunciationTrainingScreen(),
         '/Settings': (BuildContext ctx) => Settings(),
+        '/QuizScreen' : (BuildContext ctx) => QuizScreen(),
 
 
       },
