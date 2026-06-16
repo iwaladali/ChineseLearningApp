@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_project/providers/profile_provider.dart';
 import 'package:flutter_project/widgets/home_category_card.dart';
+import 'package:provider/provider.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -15,7 +17,18 @@ class _HomeScreenState extends State<HomeScreen> {
   static const Color yellow = Color(0xFFFFD600);
 
   @override
+ @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    context.read<ProfileProvider>().loadProfile();
+  }
+
+  @override
   Widget build(BuildContext context) {
+
+    final profileProvider = Provider.of<ProfileProvider>(context);
+    final lvl=profileProvider.profile!.level;
     return Scaffold(
       backgroundColor: const Color(0xFFF8F8F8),
       body: SafeArea(
@@ -37,11 +50,11 @@ class _HomeScreenState extends State<HomeScreen> {
                     ),
                     child: Row(
                       children: [
-                        const CircleAvatar(
+                         CircleAvatar(
                           radius: 30,
                           backgroundColor: primaryRed,
                           child: Text(
-                            '[user]',
+                            '${profileProvider.profile!.displayName}',
                             style: TextStyle(
                               color: Colors.white,
                               fontWeight: FontWeight.bold,
@@ -51,7 +64,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
                         const SizedBox(width: 16),
 
-                        const Expanded(
+                         Expanded(
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
@@ -65,7 +78,8 @@ class _HomeScreenState extends State<HomeScreen> {
                               ),
                               SizedBox(height: 4),
                               Text(
-                                '★ مستوى مبتدئ',
+
+                                '★ مستوى ${lvl}',
                                 style: TextStyle(
                                   color: greyText,
                                   fontSize: 14,
@@ -123,8 +137,8 @@ class _HomeScreenState extends State<HomeScreen> {
 
                               const SizedBox(height: 10),
 
-                              const Text(
-                                'لقد تعلمت [1] كلمات جديدة!',
+                               Text(
+                                ' لقد تعلمت ${profileProvider.profile!.wordsLearned} كلمات جديدة! ',
                                 style: TextStyle(
                                   color: Colors.white,
                                   fontSize: 15,
@@ -177,8 +191,8 @@ class _HomeScreenState extends State<HomeScreen> {
                                 valueColor:
                                 const AlwaysStoppedAnimation<Color>(yellow),
                               ),
-                              const Text(
-                                '60%',
+                               Text(
+                                '${(profileProvider.profile!.todayProgress*100).toInt()}%',
                                 style: TextStyle(
                                   color: Colors.white,
                                   fontWeight: FontWeight.bold,
@@ -223,7 +237,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         HomeCategoryCard(
                           icon: Icons.school,
                           title: 'تعلم الكلمات',
-                          subtitle: 'كلمة [1]',
+                          subtitle: ' كلمة${profileProvider.profile!.wordsLearned}',
                           onTap: () {
                             // TODO: Navigate to VocabularyScreen.
                             // TODO: Load vocabulary list from VocabularyProvider.

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_project/providers/profile_provider.dart';
 import 'package:provider/provider.dart';
 import '../providers/auth_provider.dart' as app_auth;
 import '../utils/Validators.dart';
@@ -44,7 +45,9 @@ class _LoginScreenState extends State<LoginScreen> {
     if (!mounted) return;
 
     if (success) {
-      Navigator.pushReplacementNamed(context, '/home');
+      await context.read<ProfileProvider>().loadProfile();
+      print('Profile: ${context.read<ProfileProvider>().profile?.displayName}');
+      Navigator.pushReplacementNamed(context, '/HomeScreen');
     } else {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(

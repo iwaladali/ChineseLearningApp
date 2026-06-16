@@ -11,7 +11,7 @@ class LearnedWordsService {
   String? get _uid => _auth.currentUser?.uid;
 
   CollectionReference get _ref =>
-      _db.collection('users').doc(_uid).collection('learnedWords');
+      _db.collection('Users').doc(_uid).collection('learnedWords');
 
   // جلب كل الكلمات المتعلمة
   Future<List<LearnedWord>> getLearnedWords() async {
@@ -22,8 +22,11 @@ class LearnedWordsService {
   }
 
   // إضافة كلمة جديدة
-  Future<void> markAsLearned(LearnedWord word) async {
+  Future<bool> markAsLearned(LearnedWord word) async {
+    final is_there = await _ref.doc(word.wordId).get();
     await _ref.doc(word.wordId).set(word.toMap());
+    return is_there.exists;
+
   }
 
   // تحقق إذا الكلمة اتعلمت
