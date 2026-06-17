@@ -23,14 +23,12 @@ class PronunciationResult {
     );
   }
   Map<String, dynamic> GetfromMap() {
-
     return  <String, dynamic>{
       'wordHeard': wordHeard,
       'accuracy':accuracy,
       'feedback':feedback,
       'tip':tip,
       'grade':grade,
-
     };
   }
 }
