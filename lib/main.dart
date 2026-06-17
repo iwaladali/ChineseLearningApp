@@ -97,8 +97,6 @@ class MyApp extends StatelessWidget {
         '/PronunciationTrainingScreen': (BuildContext ctx) => PronunciationTrainingScreen(),
         '/Settings': (BuildContext ctx) => Settings(),
         '/QuizScreen' : (BuildContext ctx) => QuizScreen(),
-
-
       },
     );
   }

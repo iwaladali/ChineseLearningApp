@@ -41,6 +41,7 @@ class _QuizScreenState extends State<QuizScreen> {
   int _selectedAnswerIndex = -1;
   bool? _isCorrect;
   int _score = 0;
+  bool? isAdded = false;
 
   @override
   void initState() {
@@ -131,14 +132,17 @@ class _QuizScreenState extends State<QuizScreen> {
       options: optionsList,
     );
   }
-
   void _handleAnswer(int index) {
-    if (_selectedAnswerIndex != -1) return; // Prevent multiple clicks
+    //if (_selectedAnswerIndex != -1) return; // Prevent change answer
 
     setState(() {
       _selectedAnswerIndex = index;
       _isCorrect = _questions[_currentIndex].options[index] == _questions[_currentIndex].correctAnswer;
-      if (_isCorrect!) _score++;
+      if (_isCorrect! && isAdded == false)
+        {
+          _score++;
+          isAdded = true;
+        }
     });
   }
 
@@ -148,6 +152,7 @@ class _QuizScreenState extends State<QuizScreen> {
         _currentIndex++;
         _selectedAnswerIndex = -1;
         _isCorrect = null;
+        isAdded = false;
       });
     } else {
       _showResult();
@@ -419,6 +424,7 @@ class _QuizScreenState extends State<QuizScreen> {
             answer: option,
             isSelected: isSelected,
             onTap: () => _handleAnswer(index),
+
           ),
         );
       }),
