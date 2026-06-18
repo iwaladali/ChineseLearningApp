@@ -12,11 +12,10 @@ class AudioService {
     required String correctWord,
     required String language,
   }) async {
-    // ── STEP 1: Groq Whisper → نص ──────────────────
-    final spokenText = await _transcribeWithGroq(audioFilePath, language);
-    print('Groq heard: $spokenText');
 
-    // ── STEP 2: Groq LLaMA → تحليل ─────────────────
+    final spokenText = await _transcribeWithGroq(audioFilePath, language);
+
+
     return await _analyzeWithGroq(
       spokenText:  spokenText,
       correctWord: correctWord,
@@ -61,7 +60,8 @@ class AudioService {
     required String spokenText,
     required String correctWord,
     required String language,
-  }) async {
+  }) async
+  {
     final response = await http.post(
       Uri.parse('https://api.groq.com/openai/v1/chat/completions'),
       headers: {

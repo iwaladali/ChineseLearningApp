@@ -34,7 +34,7 @@ class VocabularyAdd extends StatelessWidget {
             children: [
               ElevatedButton(
                 onPressed: () {
-                  vocab_provider.addVocabAll();
+                  // vocab_provider.addVocabAll();
                 },
                 style: ElevatedButton.styleFrom(
                   backgroundColor:

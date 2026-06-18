@@ -12,7 +12,7 @@ final FirebaseFirestore _firestore = FirebaseFirestore.instance;
     List<VocabularyResponse> resp=[];
       QuerySnapshot snapshot= await _firestore.collection('Vocabulary').get();
 
-    resp= snapshot.docs.map((doc)=>VocabularyResponse.fromMap(doc.id, doc.data() as Map<String, dynamic>)
+    resp= snapshot.docs.map( (doc)=> VocabularyResponse.fromMap(doc.id, doc.data() as Map<String, dynamic>)
     ).toList();
 
       return resp;

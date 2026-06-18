@@ -12,6 +12,7 @@ class AuthService {
     required String password,
   }) async {
     try {
+
       final result = await _auth.signInWithEmailAndPassword(
         email: email,
         password: password,

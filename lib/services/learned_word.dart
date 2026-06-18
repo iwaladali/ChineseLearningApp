@@ -24,7 +24,9 @@ class LearnedWordsService {
   // إضافة كلمة جديدة
   Future<bool> markAsLearned(LearnedWord word) async {
     final is_there = await _ref.doc(word.wordId).get();
+
     await _ref.doc(word.wordId).set(word.toMap());
+
     return is_there.exists;
 
   }

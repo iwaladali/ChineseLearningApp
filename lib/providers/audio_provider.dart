@@ -76,23 +76,23 @@ class AudioProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> recored_analyis({required String correctWord,
-    required String language,}) async {
-    await startRecording();
-
-    await Future.delayed(Duration(seconds: 3));
-
-    await stopAndAnalyze(
-    correctWord: correctWord,
-    language: language,
-    );
-  }
-  // void reset() {
-  //   result       = null;
-  //   errorMessage = null;
-  //   isRecording  = false;
-  //   isAnalyzing  = false;
-  //   notifyListeners();
+  // Future<void> recored_analyis({required String correctWord,
+  //   required String language,}) async {
+  //   await startRecording();
+  //
+  //   await Future.delayed(Duration(seconds: 3));
+  //
+  //   await stopAndAnalyze(
+  //   correctWord: correctWord,
+  //   language: language,
+  //   );
   // }
+  // // void reset() {
+  // //   result       = null;
+  // //   errorMessage = null;
+  // //   isRecording  = false;
+  // //   isAnalyzing  = false;
+  // //   notifyListeners();
+  // // }
 
 }
